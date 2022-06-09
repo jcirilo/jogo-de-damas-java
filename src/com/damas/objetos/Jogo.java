@@ -14,42 +14,7 @@ public class Jogo {
         tabuleiro = new Tabuleiro();
         criarPecas();
     }
-    
-    /**
-     * Posiciona pe�as no tabuleiro.
-     * Utilizado na inicialização do jogo.
-     */
-    private void criarPecas() {
 
-        //cria e as poe as pecas brancas nos lugares certos do tabuleiro
-        for (int x = 0; x < 8; x++) {
-            for (int y = 0; y < 3; y++) {
-                if((x % 2 == 0) && (y % 2 == 0)) {
-                    Casa casa = tabuleiro.getCasa(x, y);
-                    new Peca(casa, Peca.DAMA_BRANCA);
-                }
-                else if ((x % 2 != 0) && (y % 2 != 0)){
-                    Casa casa = tabuleiro.getCasa(x, y);
-                    new Peca(casa, Peca.PEDRA_BRANCA);
-                }
-            }
-        }
-
-        //cria e as poe as pecas vermelhas nos lugares certos do tabuleiro
-        for (int x = 0; x < 8; x++) {
-            for (int y = 5; y < 8; y++) {
-                if ((x % 2 != 0) && (y % 2 != 0)) {
-                    Casa casa = tabuleiro.getCasa(x, y);
-                    new Peca(casa, Peca.PEDRA_VERMELHA);
-                }
-                else if ((x % 2 == 0) && (y % 2 == 0)) {
-                    Casa casa = tabuleiro.getCasa(x, y);
-                    new Peca(casa, Peca.PEDRA_VERMELHA);
-                }
-            }
-        }
-    }
-    
     /**
      * Comanda uma Peça na posicão (origemX, origemY) fazer um movimento 
      * para (destinoX, destinoY).
@@ -69,7 +34,46 @@ public class Jogo {
             peca.mover(destino);
         }
     }
-    
+
+            /**
+     * Posiciona peças no tabuleiro.
+     * Utilizado na inicialização do jogo.
+     */
+    public void criarPecas() {
+
+        /**
+         * Cria e as poe as pecas brancas na parte inferior do tabuleiro 
+        */
+        for (int x = 0; x < 8; x++) {
+            for (int y = 0; y < 3; y++) {
+                if((x % 2 == 0) && (y % 2 == 0)) {
+                    Casa casa = tabuleiro.getCasa(x, y);
+                    new Peca(casa, Peca.PEDRA_BRANCA);
+                }
+                else if ((x % 2 != 0) && (y % 2 != 0)){
+                    Casa casa = tabuleiro.getCasa(x, y);
+                    new Peca(casa, Peca.PEDRA_BRANCA);
+                }
+            }
+        }
+
+        /**
+         * Cria e as poe as pecas vermelhas na parte superior do tabuleiro
+        */
+        for (int x = 0; x < 8; x++) {
+            for (int y = 5; y < 8; y++) {
+                if ((x % 2 != 0) && (y % 2 != 0)) {
+                    Casa casa = tabuleiro.getCasa(x, y);
+                    new Peca(casa, Peca.PEDRA_VERMELHA);
+                }
+                else if ((x % 2 == 0) && (y % 2 == 0)) {
+                    Casa casa = tabuleiro.getCasa(x, y);
+                    new Peca(casa, Peca.PEDRA_VERMELHA);
+                }
+            }
+        }
+    }
+
     /**
      * @return o Tabuleiro em jogo.
      */

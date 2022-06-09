@@ -4,6 +4,7 @@ import java.awt.Color;
 import javax.swing.JPanel;
 
 import com.damas.objetos.Casa;
+import com.damas.objetos.Dama;
 import com.damas.objetos.Jogo;
 import com.damas.objetos.Peca;
 import com.damas.objetos.Tabuleiro;
@@ -91,13 +92,13 @@ public class TabuleiroGUI extends JPanel {
                         case Peca.PEDRA_BRANCA:
                             casaGUI.desenharPedraBranca();
                             break;
-                        case Peca.DAMA_BRANCA:
+                        case Dama.DAMA_BRANCA:
                             casaGUI.desenharDamaBranca();
                             break;
                         case Peca.PEDRA_VERMELHA:
                             casaGUI.desenharPedraVermelha();
                             break;
-                        case Peca.DAMA_VERMELHA:
+                        case Dama.DAMA_VERMELHA:
                             casaGUI.desenharDamaVermelha();
                             break;
                     }

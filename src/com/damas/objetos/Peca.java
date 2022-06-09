@@ -1,7 +1,7 @@
 package com.damas.objetos;
 
 /**
- * Representa uma Pe�a do jogo.
+ * Representa uma Peça do jogo.
  * Possui uma casa e um tipo associado.
  * 
  * @author Alan Moraes &lt;alan@ci.ufpb.br&gt;
@@ -11,13 +11,15 @@ package com.damas.objetos;
 public class Peca {
 
     public static final int PEDRA_BRANCA = 0;
-    public static final int DAMA_BRANCA = 1;
     public static final int PEDRA_VERMELHA = 2;
-    public static final int DAMA_VERMELHA = 3;
 
-    private Casa casa;
-    private int tipo;
+    protected Casa casa;
+    protected int tipo;
 
+    /**
+     * @param casa Objeto Casa
+     * @param tipo int tipo de peça (0 = Pedra Branca, 2 = Peddra vermelha) 
+     */
     public Peca(Casa casa, int tipo) {
         this.casa = casa;
         this.tipo = tipo;
@@ -52,26 +54,7 @@ public class Peca {
      * @return
      */
     public boolean podeMover(Casa destino) {
-        if (tipo == 0 || tipo == 2) {
-            return podeMoverPedra(destino);
-        } else {
-            return podeMoverDama(destino);
-        }
-    }
-
-    /**
-     * Movimento da Dama que pode andar várias casas na diagonal
-     * @param destino
-     * @return boolean. True se puder ser movida e false se não 
-     */
-    private boolean podeMoverDama(Casa destino) {
-        int deltaY = destino.getY() - casa.getY();
-        int deltaX = destino.getX() - casa.getX();
- 
-        if (Math.abs(deltaY) == Math.abs(deltaX)) {
-            return true;
-        }
-        return false;
+        return podeMoverPedra(destino);
     }
 
     /**
@@ -85,24 +68,21 @@ public class Peca {
     private boolean podeMoverPedra(Casa destino) {
         int deltaY = destino.getY() - casa.getY();
         int deltaX = Math.abs((destino.getX() - casa.getX()));
- 
-        if ((tipo == 0) || (tipo == 1)) {
 
+        if (destino.getPeca() != null) return false;
+
+        if ((tipo == 0) || (tipo == 1)) { // Movimento das pedras posicionadas na parte inferior
             if (deltaY == 1 && deltaX == 1) {
                 return true;
             } else {
                 return false;
             }
-
-        }
-        else {
-
+        } else { // Movimento das pedras posicionadas na parte superior
             if (deltaY == -1 && deltaX == 1) {
                 return true;
             } else {
                 return false;
             }
-
         }
     }
 }

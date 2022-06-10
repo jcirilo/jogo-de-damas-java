@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+
 import javax.swing.BorderFactory;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
@@ -23,16 +24,16 @@ public class CasaGUI extends JButton {
     private static final Color COR_DESTAQUE = new Color(0, 1, 0, 0.4f);
     
     // Icones das pecas
-    private static final Icon PEDRA_BRANCA = new ImageIcon("public/assets/images/pedra_branca.png");
-    private static final Icon DAMA_BRANCA = new ImageIcon("public/assets/images/dama_branca.png");
-    private static final Icon PEDRA_VERMELHA = new ImageIcon("public/assets/images/pedra_vermelha.png");
-    private static final Icon DAMA_VERMELHA = new ImageIcon("public/assets/dama_vermelha.png");
+    private static String dir = System.getProperty("user.dir");
+    private static final Icon PEDRA_BRANCA = new ImageIcon(dir + "./src/com/damas/gui/images/pedra_branca.png");
+    private static final Icon DAMA_BRANCA = new ImageIcon(dir + "./src/com/damas/gui/images/dama_branca.png");
+    private static final Icon PEDRA_VERMELHA = new ImageIcon(dir + "./src/com/damas/gui/images/pedra_vermelha.png");
+    private static final Icon DAMA_VERMELHA = new ImageIcon(dir + "./src/com/damas/gui/images/dama_vermelha.png");
     
     // Cores das pecas
     public static final int SEM_PECA = -1;
     public static final int PECA_BRANCA = 0;
     public static final int PECA_VERMELHA = 1;
-    
 
     private int x;
     private int y;

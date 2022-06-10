@@ -14,7 +14,7 @@ import com.damas.objetos.Jogo;
  * @author Alan Moraes &lt;alan@ci.ufpb.br&gt;
  * @author Leonardo Villeth &lt;lvilleth@cc.ci.ufpb.br&gt;
  */
-public class JanelaPrincipal extends JFrame {
+public class JanelaPrincipalGUI extends JFrame {
 
     private Jogo jogo;
     private boolean primeiroClique;
@@ -32,15 +32,13 @@ public class JanelaPrincipal extends JFrame {
                 casaClicadaOrigem = casaClicada;
                 casaClicadaOrigem.destacar();
                 primeiroClique = false;
-            }
-            //else {
-                // clicou em uma posi�?o inv�lida, ent?o n?o faz nada.
-              //  JOptionPane.showMessageDialog(this, "Clique em uma peça.");
+            } //else { // Clicou em uma posição inválida, então não faz nada.
+            //  JOptionPane.showMessageDialog(this, "Clique em uma peça.");
             //}
         }
         else {
             casaClicadaDestino = casaClicada;
-            jogo.moverPeca(casaClicadaOrigem.getPosicaoX(), casaClicadaOrigem.getPosicaoY(),
+            jogo.getTabuleiro().moverPeca(casaClicadaOrigem.getPosicaoX(), casaClicadaOrigem.getPosicaoY(),
                     casaClicadaDestino.getPosicaoX(), casaClicadaDestino.getPosicaoY());
             casaClicadaOrigem.atenuar();
             primeiroClique = true;
@@ -52,7 +50,7 @@ public class JanelaPrincipal extends JFrame {
     /**
      * Construtor da classe.
      */
-    public JanelaPrincipal() {
+    public JanelaPrincipalGUI() {
         initComponents();
 
         this.primeiroClique = true;
@@ -252,22 +250,8 @@ public class JanelaPrincipal extends JFrame {
         );
 
         pack();
-    }// </editor-fold>//GEN-END:initComponents
-
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new JanelaPrincipal().setVisible(true);
-            }
-        });
     }
 
-    // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;

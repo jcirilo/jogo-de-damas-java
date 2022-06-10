@@ -6,7 +6,7 @@ import javax.swing.JPanel;
 import com.damas.objetos.Casa;
 import com.damas.objetos.Dama;
 import com.damas.objetos.Jogo;
-import com.damas.objetos.Peca;
+import com.damas.objetos.Pedra;
 import com.damas.objetos.Tabuleiro;
 
 /**
@@ -17,7 +17,7 @@ import com.damas.objetos.Tabuleiro;
  */
 public class TabuleiroGUI extends JPanel {
 
-    private JanelaPrincipal janela;
+    private JanelaPrincipalGUI janela;
     private CasaGUI[][] casas;
 
     /**
@@ -27,7 +27,7 @@ public class TabuleiroGUI extends JPanel {
         // Construtor sem par�metros requerido pela especifica�?o JavaBeans.
     }
 
-    public TabuleiroGUI(JanelaPrincipal janela) {
+    public TabuleiroGUI(JanelaPrincipalGUI janela) {
         this.janela = janela;
         initComponents();
         criarCasas();
@@ -86,16 +86,16 @@ public class TabuleiroGUI extends JPanel {
                 Tabuleiro tabuleiro = jogo.getTabuleiro();
                 Casa casa = tabuleiro.getCasa(x, y);
                 if (casa.possuiPeca()) {
-                    Peca peca = casa.getPeca();
+                    Pedra peca = casa.getPeca();
 
                     switch (peca.getTipo()) {
-                        case Peca.PEDRA_BRANCA:
+                        case Pedra.PEDRA_BRANCA:
                             casaGUI.desenharPedraBranca();
                             break;
                         case Dama.DAMA_BRANCA:
                             casaGUI.desenharDamaBranca();
                             break;
-                        case Peca.PEDRA_VERMELHA:
+                        case Pedra.PEDRA_VERMELHA:
                             casaGUI.desenharPedraVermelha();
                             break;
                         case Dama.DAMA_VERMELHA:
@@ -110,7 +110,7 @@ public class TabuleiroGUI extends JPanel {
         }
     }
 
-    public JanelaPrincipal getJanela() {
+    public JanelaPrincipalGUI getJanela() {
         return janela;
     }
 

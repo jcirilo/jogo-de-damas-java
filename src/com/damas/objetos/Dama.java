@@ -1,6 +1,6 @@
 package com.damas.objetos;
 
-public class Dama extends Peca{
+public class Dama extends Pedra {
     
     public static final int DAMA_BRANCA = 1;
     public static final int DAMA_VERMELHA = 3;
@@ -13,17 +13,12 @@ public class Dama extends Peca{
         super(casa, tipo);
     }
 
-    @Override
-    public boolean podeMover(Casa destino) {
-        return podeMoverDama(destino);
-    }
-
     /**
      * Movimento da Dama que pode andar várias casas na diagonal
      * @param destino
      * @return boolean. True se puder ser movida e false se não 
      */
-    private boolean podeMoverDama(Casa destino) {
+    public boolean podeMover(Casa destino) {
         if (destino.getPeca() != null) return false;
 
         int deltaY = destino.getY() - casa.getY();

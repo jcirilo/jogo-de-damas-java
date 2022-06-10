@@ -36,21 +36,71 @@ public class Tabuleiro {
         Casa destino = getCasa(destinoX, destinoY);
         Pedra peca = origem.getPeca();
 
+        // REGRA DE MOVIMENTAÇÃO DAS PECAS BRANCAS DO TABULEIRO INCLUI REGRA DE COMER PEÇA
         if (vezDe() == 1 && (peca.getTipo() == Peca.PEDRA_BRANCA || peca.getTipo() == Peca.PEDRA_BRANCA ) ) {
             if (peca.podeMover(destino)) {
-                peca.mover(destino);
-                jogada++;
-            }
-        } else {
-            if (vezDe() == 2 && (peca.getTipo() == Peca.PEDRA_VERMELHA || peca.getTipo() == Peca.DAMA_VERMELHA ) ) {
-                if (peca.podeMover(destino)) {
+
+                if ((destino.getPeca() == null)) {
+                
                     peca.mover(destino);
+                
+                    if (destino.getY() == 7) {
+                        destino.removerPeca();
+                        destino.colocarPeca(new Dama(destino, Peca.DAMA_BRANCA));
+                    }
+
                     jogada++;
                 }
+                // REGRA DE COMER PEÇA 
+                else {
+                    int posX = (destino.getX() - origem.getX()) + destino.getX();
+                    int posY = (destino.getY() - origem.getY()) + destino.getY();
+                    if (getCasa(posX, posY).getPeca() == null) {
+                        
+                        jogadorUm.addPonto();
+                        peca.mover(getCasa(posX, posY));
+                        
+                        if (posY == 7) {
+
+                        } else {
+                            peca.mover(getCasa(posX, posY));
+                        }
+                    }
+                }
+
             }
         }
+
+        // REGRA DE MOVIMENTAÇÃO DAS PEÇAS VERMELHAS DO TABULEIRO INCLUI REGRA DE COMER PEÇA
+        if (vezDe() == 2 && (peca.getTipo() == Peca.PEDRA_VERMELHA || peca.getTipo() == Peca.DAMA_VERMELHA ) ) {
+            if (peca.podeMover(destino)) {
+                if ((destino.getPeca() == null)) {
+                    peca.mover(destino);
+                    if (destino.getY() == 7) {
+                        destino.colocarPeca(new Dama(destino, Peca.DAMA_BRANCA));
+                    }
+                    jogada++;
+                }
+                // REGRA DE COMER PEÇA
+                else {
+                    int posX = (destino.getX() - origem.getX()) + destino.getX();
+                    int posY = (destino.getY() - origem.getY()) + destino.getY();
+                    if (getCasa(posX, posY).getPeca() == null) {
+                        destino.removerPeca();
+                        jogadorUm.addPonto();
+
+                        if (posY == 0) {
+                            origem.removerPeca();
+                        } else {
+                            peca.mover(getCasa(posX, posY));
+                        }
+                    }
+                }
+            } 
+        }
+        
     }
-    
+
     /**
      * Calcula de quem é a vez de fazer a jogada, jogador um fica com a vez quando o número de jogadas
      * for par e o jogador dois quando o número de jogadas for impar

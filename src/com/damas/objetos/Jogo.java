@@ -22,6 +22,12 @@ public class Jogo {
         tabuleiro.setJogadorDois(jogadorDois);
     }
 
+    public int temGanhador() {
+        if (jogadorUm.getPontos() == 12) return 1;
+        if (jogadorDois.getPontos() == 12) return 2;
+        return 0;
+    }
+
     /**
      * @return o Tabuleiro em jogo.
      */

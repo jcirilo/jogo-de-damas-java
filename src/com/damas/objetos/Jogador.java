@@ -7,7 +7,7 @@ public class Jogador {
     public static final String DEFAULT_NAME = "Anônimo";
     
     private String nome;
-    private int pecasComidas;
+    private int pontos;
 
     public Jogador (String nome) {
 
@@ -17,7 +17,7 @@ public class Jogador {
             this.nome = DEFAULT_NAME;
         }
 
-        pecasComidas = 0;
+        pontos = 0;
     }
 
     private boolean validarNome(String nome) {
@@ -25,8 +25,12 @@ public class Jogador {
         return true;
     }
 
-    public int getPecasComidas() {
-        return pecasComidas;
+    public void addPonto() {
+        pontos++;
+    }
+
+    public int getPontos() {
+        return pontos;
     }
 
     public String getNome() {

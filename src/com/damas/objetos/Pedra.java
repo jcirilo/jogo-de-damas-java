@@ -47,8 +47,6 @@ public class Pedra implements Peca {
     public boolean podeMover(Casa destino) {
         int deltaY = destino.getY() - casa.getY();
         int deltaX = Math.abs((destino.getX() - casa.getX()));
-
-        if (destino.getPeca() != null) return false;
         
         // Regra de movimento das pedras posicionadas na parte inferior
         if ((tipo == Peca.PEDRA_BRANCA) || (tipo == Peca.DAMA_BRANCA)) {

@@ -20,7 +20,7 @@ public class Casa {
     }
     
     /**
-     * @param peca a Pe�a a ser posicionada nesta Casa.
+     * @param peca a Pe�ça a ser posicionada nesta Casa.
      */
     public void colocarPeca(Pedra peca) {
         this.peca = peca;
@@ -30,7 +30,7 @@ public class Casa {
      * Remove a peca posicionada nesta casa, se houver.
      */
     public void removerPeca() {
-            peca = null;
+        peca = null;
     }
     
     /**

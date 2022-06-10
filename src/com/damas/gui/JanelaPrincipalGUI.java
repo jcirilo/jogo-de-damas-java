@@ -32,14 +32,16 @@ public class JanelaPrincipalGUI extends JFrame {
                 casaClicadaOrigem = casaClicada;
                 casaClicadaOrigem.destacar();
                 primeiroClique = false;
-            } //else { // Clicou em uma posição inválida, então não faz nada.
-            //  JOptionPane.showMessageDialog(this, "Clique em uma peça.");
-            //}
+            }
+            /*
+            else { // Clicou em uma posição inválida, então não faz nada.
+              JOptionPane.showMessageDialog(this, "Clique em uma peça.");
+            }
+            */
         }
         else {
             casaClicadaDestino = casaClicada;
-            jogo.getTabuleiro().moverPeca(casaClicadaOrigem.getPosicaoX(), casaClicadaOrigem.getPosicaoY(),
-                    casaClicadaDestino.getPosicaoX(), casaClicadaDestino.getPosicaoY());
+            jogo.getTabuleiro().moverPeca(casaClicadaOrigem.getPosicaoX(), casaClicadaOrigem.getPosicaoY(), casaClicadaDestino.getPosicaoX(), casaClicadaDestino.getPosicaoY());
             casaClicadaOrigem.atenuar();
             primeiroClique = true;
             atualizar();

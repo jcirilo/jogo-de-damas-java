@@ -10,9 +10,6 @@ package com.damas.objetos;
  */
 public class Pedra implements Peca {
 
-    public static final int PEDRA_BRANCA = 0;
-    public static final int PEDRA_VERMELHA = 2;
-
     protected Casa casa;
     protected int tipo;
 
@@ -52,19 +49,16 @@ public class Pedra implements Peca {
         int deltaX = Math.abs((destino.getX() - casa.getX()));
 
         if (destino.getPeca() != null) return false;
-
-        if ((tipo == 0) || (tipo == 1)) { // Movimento das pedras posicionadas na parte inferior
-            if (deltaY == 1 && deltaX == 1) {
-                return true;
-            } else {
-                return false;
-            }
-        } else { // Movimento das pedras posicionadas na parte superior
-            if (deltaY == -1 && deltaX == 1) {
-                return true;
-            } else {
-                return false;
-            }
+        
+        // Regra de movimento das pedras posicionadas na parte inferior
+        if ((tipo == Peca.PEDRA_BRANCA) || (tipo == Peca.DAMA_BRANCA)) {
+            if (deltaY == 1 && deltaX == 1) return true;
+            return false;
+        }
+        // Regra de movimento das pedras posicionadas na parte superior 
+        else {
+            if (deltaY == -1 && deltaX == 1) return true;
+            return false;
         }
     }
 

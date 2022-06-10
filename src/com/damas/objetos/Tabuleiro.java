@@ -9,23 +9,17 @@ package com.damas.objetos;
  */
 public class Tabuleiro {
     
-    private static final int MAX_LINHAS = 8;
-    private static final int MAX_COLUNAS = 8;
+    public static final int MAX_LINHAS = 8;
+    public static final int MAX_COLUNAS = 8;
  
+    private Jogador jogadorUm; // controla as pedras brancas
+    private Jogador jogadorDois; // controla as pedras vermelhas
     private Casa[][] casas;
+    private int jogada;
 
     public Tabuleiro() {
         montarTabuleiro();
-    }
-
-    private void montarTabuleiro() {
-        casas = new Casa[MAX_LINHAS][MAX_COLUNAS];
-        for (int x = 0; x < MAX_LINHAS; x++) {
-            for (int y = 0; y < MAX_COLUNAS; y++) {
-                Casa casa = new Casa(x, y);
-                casas[x][y] = casa;
-            }
-        }
+        jogada = 0;
     }
 
     /**
@@ -42,9 +36,43 @@ public class Tabuleiro {
         Casa destino = getCasa(destinoX, destinoY);
         Pedra peca = origem.getPeca();
 
-        if (peca.podeMover(destino))
-        {
-            peca.mover(destino);
+        if (vezDe() == 1 && (peca.getTipo() == Peca.PEDRA_BRANCA || peca.getTipo() == Peca.PEDRA_BRANCA ) ) {
+            if (peca.podeMover(destino)) {
+                peca.mover(destino);
+                jogada++;
+            }
+        } else {
+            if (vezDe() == 2 && (peca.getTipo() == Peca.PEDRA_VERMELHA || peca.getTipo() == Peca.DAMA_VERMELHA ) ) {
+                if (peca.podeMover(destino)) {
+                    peca.mover(destino);
+                    jogada++;
+                }
+            }
+        }
+    }
+    
+    /**
+     * Calcula de quem é a vez de fazer a jogada, jogador um fica com a vez quando o número de jogadas
+     * for par e o jogador dois quando o número de jogadas for impar
+     * @return Número do jogao do que está com a vez (1 = Jogador 1, 2 = Jogador 2)
+     */
+    public int vezDe() {
+        if ((jogada % 2) == 0) {
+            return 1;
+        }    
+        return 2;
+    }
+
+    /**
+     * Adiciona as Casas no tabuleiro
+     */
+    private void montarTabuleiro() {
+        casas = new Casa[MAX_LINHAS][MAX_COLUNAS];
+        for (int x = 0; x < MAX_LINHAS; x++) {
+            for (int y = 0; y < MAX_COLUNAS; y++) {
+                Casa casa = new Casa(x, y);
+                casas[x][y] = casa;
+            }
         }
     }
 
@@ -61,11 +89,11 @@ public class Tabuleiro {
             for (int y = 0; y < 3; y++) {
                 if((x % 2 == 0) && (y % 2 == 0)) {
                     Casa casa = getCasa(x, y);
-                    new Pedra(casa, Pedra.PEDRA_BRANCA);
+                    new Pedra(casa, Peca.PEDRA_BRANCA);
                 }
                 else if ((x % 2 != 0) && (y % 2 != 0)){
                     Casa casa = getCasa(x, y);
-                    new Pedra(casa, Pedra.PEDRA_BRANCA);
+                    new Pedra(casa, Peca.PEDRA_BRANCA);
                 }
             }
         }
@@ -77,15 +105,17 @@ public class Tabuleiro {
             for (int y = 5; y < 8; y++) {
                 if ((x % 2 != 0) && (y % 2 != 0)) {
                     Casa casa = getCasa(x, y);
-                    new Pedra(casa, Pedra.PEDRA_VERMELHA);
+                    new Pedra(casa, Peca.PEDRA_VERMELHA);
                 }
                 else if ((x % 2 == 0) && (y % 2 == 0)) {
                     Casa casa = getCasa(x, y);
-                    new Pedra(casa, Pedra.PEDRA_VERMELHA);
+                    new Pedra(casa, Peca.PEDRA_VERMELHA);
                 }
             }
         }
     }
+
+
 
     /**
      * @param x linha
@@ -94,5 +124,25 @@ public class Tabuleiro {
      */
     public Casa getCasa(int x, int y) {
         return casas[x][y];
+    }
+
+    public void setJogadorUm(Jogador jogador) {
+        jogadorUm = jogador;
+    }
+
+    public void setJogadorDois(Jogador jogador) {
+        jogadorDois = jogador;
+    }
+
+    public Jogador getJogadorUm() {
+        return jogadorUm;
+    }
+
+    public Jogador getJogadorDois() {
+        return jogadorDois;
+    }
+
+    public int getJogada() {
+        return jogada;
     }
 }

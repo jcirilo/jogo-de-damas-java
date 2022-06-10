@@ -9,10 +9,17 @@ package com.damas.objetos;
 public class Jogo {
 
     private Tabuleiro tabuleiro;
+    private Jogador jogadorUm;
+    private Jogador jogadorDois;
 
     public Jogo() {
         tabuleiro = new Tabuleiro();
+        jogadorUm = new Jogador("Jogador 1");
+        jogadorDois = new Jogador("Jogador 2");
+
         tabuleiro.criarPecas();
+        tabuleiro.setJogadorUm(jogadorUm);
+        tabuleiro.setJogadorDois(jogadorDois);
     }
 
     /**

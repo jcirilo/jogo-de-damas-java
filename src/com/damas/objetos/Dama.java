@@ -1,9 +1,6 @@
 package com.damas.objetos;
 
 public class Dama extends Pedra {
-    
-    public static final int DAMA_BRANCA = 1;
-    public static final int DAMA_VERMELHA = 3;
 
     /**
      * @param casa Objeto Casa

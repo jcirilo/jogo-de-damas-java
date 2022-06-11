@@ -42,6 +42,7 @@ public class Tabuleiro {
             if (destino.getPeca() == null) {
                 if (peca.podeMover(destino)) {
                     peca.mover(destino);
+                    if (podeTransformarParaDama(destino)) transformarPedraParaDama(destino);
                     jogada++;
                 }
 
@@ -61,6 +62,7 @@ public class Tabuleiro {
                 if (peca.podeMover(destino)) {
                     peca.mover(destino);
                     jogada++;
+                    if (podeTransformarParaDama(destino)) transformarPedraParaDama(destino);
                 }
             } else {
                 if (podeComer(origem, destino)){
@@ -73,12 +75,42 @@ public class Tabuleiro {
         
     }
 
-    // TODO virar dama
+    /**
+     * Verifica se a pedra pode virar dama.
+     * @param origem casa onde a pedra que vai ser verificada está.
+     * @return verdadeiro se pode virar, falso se não pode virar.
+     */
+    private boolean podeTransformarParaDama(Casa casa) {
+        
+        // Regra para pecas brancas
+        if (casa.getPeca().getTipo() == Peca.PEDRA_BRANCA) {
+            if (casa.getY() == 7) return true;
+            return false;
+        }
+        
+        // Regra para epcas vermelhas
+        if (casa.getPeca().getTipo() == Peca.PEDRA_VERMELHA) {
+            if (casa.getY() == 0) return true;
+            return false;
+        }
 
-    // TODO Modificar o movimento da dama
+        return false;
+    }
 
     /**
-     * Faz a função de comer a peca e posiciona-las
+     * Transforma a pedra da casa passada como parametro em dama
+     * @param casa casa contendo a dama para ser transformada.
+     */
+    private void transformarPedraParaDama(Casa casa) {
+        int tipoDePedra = casa.getPeca().getTipo();
+        casa.removerPeca();
+
+        if (tipoDePedra == Peca.PEDRA_BRANCA) casa.colocarPeca(new Dama(casa, Peca.DAMA_BRANCA));
+        if (tipoDePedra == Peca.PEDRA_VERMELHA) casa.colocarPeca(new Dama(casa, Peca.DAMA_VERMELHA));
+    }
+
+    /**
+     * Faz a função de comer a a peça e posicionar corretamente;
      * @param casaOrigem
      * @param casaDestino
      */
@@ -93,6 +125,7 @@ public class Tabuleiro {
         
         Casa proximaCasa = getCasa(posX, posY);        
         pecaOrigem.mover(proximaCasa);
+        if (podeTransformarParaDama(proximaCasa)) transformarPedraParaDama(proximaCasa);
         destino.removerPeca();
     }
 

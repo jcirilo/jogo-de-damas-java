@@ -1,15 +1,15 @@
 package com.damas;
 
-import com.damas.gui.JanelaPrincipalGUI;
+import com.damas.gui.JogoGUI;
 
 public class App {
     public static void main(String args[]) {
 
-        /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new JanelaPrincipalGUI().setVisible(true);
+                new JogoGUI().setVisible(true);
             }
         });
+
     }
 }

@@ -12,9 +12,6 @@ import javax.swing.JButton;
 
 /**
  * Interface Grafica de uma Casa no tabuleiro do jogo.
- *
- * @author Alan Moraes &lt;alan@ci.ufpb.br&gt;
- * @author Leonardo Villeth &lt;lvilleth@cc.ci.ufpb.br&gt;
  */
 public class CasaGUI extends JButton {
 

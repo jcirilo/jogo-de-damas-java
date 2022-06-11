@@ -11,12 +11,9 @@ import com.damas.objetos.Jogo;
 
 /**
  * Tela do jogo.
- * Respons�vel por reagir aos cliques feitos pelo jogador.
- * 
- * @author Alan Moraes &lt;alan@ci.ufpb.br&gt;
- * @author Leonardo Villeth &lt;lvilleth@cc.ci.ufpb.br&gt;
+ * Responsável por reagir aos cliques feitos pelo jogador.
  */
-public class JanelaPrincipalGUI extends JFrame {
+public class JogoGUI extends JFrame {
 
     private Jogo jogo;
     private boolean primeiroClique;
@@ -24,8 +21,7 @@ public class JanelaPrincipalGUI extends JFrame {
     private CasaGUI casaClicadaDestino;
     
     /**
-     * Responde aos cliques realizados no tabuleiro.
-     * 
+     * Responde aos cliques realizados no tabuleiro. 
      * @param casaClicada Casa que o jogador clicou.
      */
     public void reagir(CasaGUI casaClicada) {
@@ -52,7 +48,7 @@ public class JanelaPrincipalGUI extends JFrame {
     /**
      * Construtor da classe.
      */
-    public JanelaPrincipalGUI() {
+    public JogoGUI() {
         initComponents();
 
         this.primeiroClique = true;
@@ -83,7 +79,7 @@ public class JanelaPrincipalGUI extends JFrame {
     
 
     /**
-     * Cria um novo jogo e atualiza o tabuleiro gr�fico.
+     * Cria um novo jogo e atualiza o tabuleiro gráfico.
      */
     private void criarNovoJogo() {
         if(!primeiroClique) {
@@ -278,6 +274,4 @@ public class JanelaPrincipalGUI extends JFrame {
     private javax.swing.JPanel pnlColunas;
     private javax.swing.JPanel pnlLinhas;
     private TabuleiroGUI tabuleiroGUI;
-    // End of variables declaration//GEN-END:variables
-
 }

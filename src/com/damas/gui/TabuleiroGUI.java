@@ -11,23 +11,16 @@ import com.damas.objetos.Tabuleiro;
 
 /**
  * Interface Grafica do Tabuleiro do jogo.
- * 
- * @author Alan Moraes &lt;alan@ci.ufpb.br&gt;
- * @author Leonardo Villeth &lt;lvilleth@cc.ci.ufpb.br&gt;
  */
 public class TabuleiroGUI extends JPanel {
 
-    private JanelaPrincipalGUI janela;
+    private JogoGUI janela;
     private CasaGUI[][] casas;
 
-    /**
-     * Creates new form Tabuleiro
-     */
     public TabuleiroGUI() {
-        // Construtor sem par�metros requerido pela especifica�?o JavaBeans.
     }
 
-    public TabuleiroGUI(JanelaPrincipalGUI janela) {
+    public TabuleiroGUI(JogoGUI janela) {
         this.janela = janela;
         initComponents();
         criarCasas();
@@ -57,7 +50,7 @@ public class TabuleiroGUI extends JPanel {
             if (y % 2 == 0) {
                 return CasaGUI.COR_ESCURA;
             }
-            // coluna �mpar
+            // coluna impar
             else {
                 return CasaGUI.COR_CLARA;
             }
@@ -110,7 +103,7 @@ public class TabuleiroGUI extends JPanel {
         }
     }
 
-    public JanelaPrincipalGUI getJanela() {
+    public JogoGUI getJanela() {
         return janela;
     }
 

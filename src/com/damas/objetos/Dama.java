@@ -15,7 +15,6 @@ public class Dama extends Pedra{
      * @param destino
      * @return boolean. True se puder ser movida e false se não 
      */
-    @Override
     public boolean podeMover(Casa destino) {
 
         int deltaY = destino.getY() - casa.getY();

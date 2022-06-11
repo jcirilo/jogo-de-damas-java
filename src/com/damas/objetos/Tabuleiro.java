@@ -36,7 +36,7 @@ public class Tabuleiro {
         Casa destino = getCasa(destinoX, destinoY);
         Pedra peca = origem.getPeca();
 
-        // REGRA DE MOVIMENTAÇÃO DAS PECAS BRANCAS DO TABULEIRO INCLUI REGRA DE COMER PEÇA
+        // REGRAS DA PEÇA BRANCA
         if (vezDe() == 1 && (peca.getTipo() == Peca.PEDRA_BRANCA || peca.getTipo() == Peca.PEDRA_BRANCA ) ) {
             
             if (destino.getPeca() == null) {
@@ -44,6 +44,7 @@ public class Tabuleiro {
                     peca.mover(destino);
                     jogada++;
                 }
+
             } else {
                 if (podeComer(origem, destino)){
                     comerPeca(origem, destino);
@@ -53,7 +54,7 @@ public class Tabuleiro {
             }
         }
 
-        // REGRA DE MOVIMENTAÇÃO DAS PEÇAS VERMELHAS DO TABULEIRO INCLUI REGRA DE COMER PEÇA
+        // REGRAS DA PEÇA VERMELHA
         if (vezDe() == 2 && (peca.getTipo() == Peca.PEDRA_VERMELHA || peca.getTipo() == Peca.DAMA_VERMELHA ) ) {
 
             if (destino.getPeca() == null) {
@@ -64,13 +65,17 @@ public class Tabuleiro {
             } else {
                 if (podeComer(origem, destino)){
                     comerPeca(origem, destino);
-                    jogadorUm.addPonto();
+                    jogadorDois.addPonto();
                     jogada++;
                 }
             }
         }
         
     }
+
+    // TODO virar dama
+
+    // TODO Modificar o movimento da dama
 
     /**
      * Faz a função de comer a peca e posiciona-las
@@ -85,11 +90,10 @@ public class Tabuleiro {
 
         int posX = (destino.getX() - origem.getX()) + destino.getX();
         int posY = (destino.getY() - origem.getY()) + destino.getY();
-        Casa proximaCasa = getCasa(posX, posY);
-
+        
+        Casa proximaCasa = getCasa(posX, posY);        
         pecaOrigem.mover(proximaCasa);
         destino.removerPeca();
-
     }
 
     /**

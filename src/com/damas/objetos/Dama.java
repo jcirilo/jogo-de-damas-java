@@ -1,6 +1,6 @@
 package com.damas.objetos;
 
-public class Dama extends Pedra {
+public class Dama extends Pedra{
 
     /**
      * @param casa Objeto Casa
@@ -15,8 +15,8 @@ public class Dama extends Pedra {
      * @param destino
      * @return boolean. True se puder ser movida e false se não 
      */
+    @Override
     public boolean podeMover(Casa destino) {
-        if (destino.getPeca() != null) return false;
 
         int deltaY = destino.getY() - casa.getY();
         int deltaX = destino.getX() - casa.getX();

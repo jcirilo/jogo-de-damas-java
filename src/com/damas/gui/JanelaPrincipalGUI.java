@@ -3,6 +3,8 @@ package com.damas.gui;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
+
 // import javax.swing.JOptionPane;
 
 import com.damas.objetos.Jogo;
@@ -33,11 +35,9 @@ public class JanelaPrincipalGUI extends JFrame {
                 casaClicadaOrigem.destacar();
                 primeiroClique = false;
             }
-            /*
             else { // Clicou em uma posição inválida, então não faz nada.
               JOptionPane.showMessageDialog(this, "Clique em uma peça.");
             }
-            */
         }
         else {
             casaClicadaDestino = casaClicada;

@@ -38,67 +38,89 @@ public class Tabuleiro {
 
         // REGRA DE MOVIMENTAÇÃO DAS PECAS BRANCAS DO TABULEIRO INCLUI REGRA DE COMER PEÇA
         if (vezDe() == 1 && (peca.getTipo() == Peca.PEDRA_BRANCA || peca.getTipo() == Peca.PEDRA_BRANCA ) ) {
-            if (peca.podeMover(destino)) {
-
-                if ((destino.getPeca() == null)) {
-                
+            
+            if (destino.getPeca() == null) {
+                if (peca.podeMover(destino)) {
                     peca.mover(destino);
-                
-                    if (destino.getY() == 7) {
-                        destino.removerPeca();
-                        destino.colocarPeca(new Dama(destino, Peca.DAMA_BRANCA));
-                    }
-
                     jogada++;
                 }
-                // REGRA DE COMER PEÇA 
-                else {
-                    int posX = (destino.getX() - origem.getX()) + destino.getX();
-                    int posY = (destino.getY() - origem.getY()) + destino.getY();
-                    if (getCasa(posX, posY).getPeca() == null) {
-                        
-                        jogadorUm.addPonto();
-                        peca.mover(getCasa(posX, posY));
-                        
-                        if (posY == 7) {
-
-                        } else {
-                            peca.mover(getCasa(posX, posY));
-                        }
-                    }
+            } else {
+                if (podeComer(origem, destino)){
+                    comerPeca(origem, destino);
+                    jogadorUm.addPonto();
+                    jogada++;
                 }
-
             }
         }
 
         // REGRA DE MOVIMENTAÇÃO DAS PEÇAS VERMELHAS DO TABULEIRO INCLUI REGRA DE COMER PEÇA
         if (vezDe() == 2 && (peca.getTipo() == Peca.PEDRA_VERMELHA || peca.getTipo() == Peca.DAMA_VERMELHA ) ) {
-            if (peca.podeMover(destino)) {
-                if ((destino.getPeca() == null)) {
+
+            if (destino.getPeca() == null) {
+                if (peca.podeMover(destino)) {
                     peca.mover(destino);
-                    if (destino.getY() == 7) {
-                        destino.colocarPeca(new Dama(destino, Peca.DAMA_BRANCA));
-                    }
                     jogada++;
                 }
-                // REGRA DE COMER PEÇA
-                else {
-                    int posX = (destino.getX() - origem.getX()) + destino.getX();
-                    int posY = (destino.getY() - origem.getY()) + destino.getY();
-                    if (getCasa(posX, posY).getPeca() == null) {
-                        destino.removerPeca();
-                        jogadorUm.addPonto();
-
-                        if (posY == 0) {
-                            origem.removerPeca();
-                        } else {
-                            peca.mover(getCasa(posX, posY));
-                        }
-                    }
+            } else {
+                if (podeComer(origem, destino)){
+                    comerPeca(origem, destino);
+                    jogadorUm.addPonto();
+                    jogada++;
                 }
-            } 
+            }
         }
         
+    }
+
+    /**
+     * Faz a função de comer a peca e posiciona-las
+     * @param casaOrigem
+     * @param casaDestino
+     */
+    private void comerPeca(Casa casaOrigem, Casa casaDestino) {
+
+        Casa origem = getCasa(casaOrigem.getX(), casaOrigem.getY());
+        Casa destino = getCasa(casaDestino.getX(), casaDestino.getY());
+        Pedra pecaOrigem = origem.getPeca();
+
+        int posX = (destino.getX() - origem.getX()) + destino.getX();
+        int posY = (destino.getY() - origem.getY()) + destino.getY();
+        Casa proximaCasa = getCasa(posX, posY);
+
+        pecaOrigem.mover(proximaCasa);
+        destino.removerPeca();
+
+    }
+
+    /**
+     * Verifica se pode comer a peca na casa indicada
+     * @param origem casa de origem
+     * @param destino casa de destino
+     * @return verdadeiro se a proxima casa na mesma direção estiver vazia, caso contrario falso
+     */
+    private boolean podeComer(Casa casaOrigem, Casa casaDestino) {
+
+        Casa origem = getCasa(casaOrigem.getX(), casaOrigem.getY());
+        Casa destino = getCasa(casaDestino.getX(), casaDestino.getY());
+        Pedra pedraOrigem = origem.getPeca();
+        Pedra pedraDestino = destino.getPeca();
+
+        // VERIFICA SE AS PEÇAS SÃO DO MESMO TIPO
+        if (pedraDestino == null) return false;
+        if (pedraOrigem.getTipo() == pedraDestino.getTipo()) return false;
+        if (pedraOrigem.getTipo() == Peca.PEDRA_BRANCA && pedraDestino.getTipo() == Peca.DAMA_BRANCA) return false;
+        if (pedraOrigem.getTipo() == Peca.PEDRA_VERMELHA && pedraDestino.getTipo() == Peca.DAMA_VERMELHA) return false;
+
+        if (destino.getPeca() !=  null) {
+            // Sentido apontado + uma casa
+            int posX = (destino.getX() - origem.getX() + destino.getX());
+            int posY = (destino.getY() - origem.getY() + destino.getY());
+
+            if (getCasa(posX, posY).getPeca() == null) return true;
+
+        }
+
+        return false;
     }
 
     /**
@@ -164,8 +186,6 @@ public class Tabuleiro {
             }
         }
     }
-
-
 
     /**
      * @param x linha

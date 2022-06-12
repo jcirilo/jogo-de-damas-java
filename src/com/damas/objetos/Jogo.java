@@ -18,8 +18,8 @@ public class Jogo {
         jogadorDois = new Jogador("Jogador 2");
 
         tabuleiro.criarPecas();
-        tabuleiro.setJogadorUm(jogadorUm);
-        tabuleiro.setJogadorDois(jogadorDois);
+        tabuleiro.setJogadorBranco(jogadorUm);
+        tabuleiro.setJogadorVermelho(jogadorDois);
     }
 
     public int temGanhador() {

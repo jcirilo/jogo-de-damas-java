@@ -2,18 +2,15 @@ package com.damas.objetos;
 
 /**
  * O Tabuleiro do jogo. 
- * Responsável por armazenar as 64 casas.
- * 
- * @author Alan Moraes &lt;alan@ci.ufpb.br&gt;
- * @author Leonardo Villeth &lt;lvilleth@cc.ci.ufpb.br&gt;
+ * Responsável por armazenar as 64 casas e possuir a lógica das regras da partida.
  */
 public class Tabuleiro {
     
     public static final int MAX_LINHAS = 8;
     public static final int MAX_COLUNAS = 8;
  
-    private Jogador jogadorUm; // controla as pedras brancas
-    private Jogador jogadorDois; // controla as pedras vermelhas
+    private Jogador jogadorBranco; // controla as pedras brancas
+    private Jogador jogadorVermelho; // controla as pedras vermelhas
     private Casa[][] casas;
     private int jogada;
 
@@ -37,9 +34,11 @@ public class Tabuleiro {
         Pedra peca = origem.getPeca();
 
         // REGRAS DA PEÇA BRANCA
-        if (vezDe() == 1 && (peca.getTipo() == Peca.PEDRA_BRANCA || peca.getTipo() == Peca.PEDRA_BRANCA ) ) {
+        if (vezDe() == 1 && (peca.getTipo() == Peca.PEDRA_BRANCA || peca.getTipo() == Peca.DAMA_BRANCA ) ) {
             
             if (destino.getPeca() == null) {
+
+                // ENTRA NA REGRA DE MOVIMENTO DA PEÇA
                 if (peca.podeMover(destino)) {
                     peca.mover(destino);
                     if (podeTransformarParaDama(destino)) transformarPedraParaDama(destino);
@@ -49,7 +48,7 @@ public class Tabuleiro {
             } else {
                 if (podeComer(origem, destino)){
                     comerPeca(origem, destino);
-                    jogadorUm.addPonto();
+                    jogadorBranco.addPonto();
                     jogada++;
                 }
             }
@@ -59,6 +58,8 @@ public class Tabuleiro {
         if (vezDe() == 2 && (peca.getTipo() == Peca.PEDRA_VERMELHA || peca.getTipo() == Peca.DAMA_VERMELHA ) ) {
 
             if (destino.getPeca() == null) {
+                
+                // ENTRA NA REGRA DE MOVIMENTO DA PEÇA
                 if (peca.podeMover(destino)) {
                     peca.mover(destino);
                     jogada++;
@@ -67,7 +68,7 @@ public class Tabuleiro {
             } else {
                 if (podeComer(origem, destino)){
                     comerPeca(origem, destino);
-                    jogadorDois.addPonto();
+                    jogadorVermelho.addPonto();
                     jogada++;
                 }
             }
@@ -198,7 +199,7 @@ public class Tabuleiro {
             for (int y = 0; y < 3; y++) {
                 if((x % 2 == 0) && (y % 2 == 0)) {
                     Casa casa = getCasa(x, y);
-                    new Pedra(casa, Peca.PEDRA_BRANCA);
+                    new Dama(casa, Peca.DAMA_BRANCA);
                 }
                 else if ((x % 2 != 0) && (y % 2 != 0)){
                     Casa casa = getCasa(x, y);
@@ -233,20 +234,20 @@ public class Tabuleiro {
         return casas[x][y];
     }
 
-    public void setJogadorUm(Jogador jogador) {
-        jogadorUm = jogador;
+    public void setJogadorBranco(Jogador jogador) {
+        jogadorBranco = jogador;
     }
 
-    public void setJogadorDois(Jogador jogador) {
-        jogadorDois = jogador;
+    public void setJogadorVermelho(Jogador jogador) {
+        jogadorVermelho = jogador;
     }
 
-    public Jogador getJogadorUm() {
-        return jogadorUm;
+    public Jogador getJogadorBranco() {
+        return jogadorBranco;
     }
 
-    public Jogador getJogadorDois() {
-        return jogadorDois;
+    public Jogador getJogadorVermelho() {
+        return jogadorVermelho;
     }
 
     public int getJogada() {

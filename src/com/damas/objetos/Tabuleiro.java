@@ -121,11 +121,17 @@ public class Tabuleiro {
         Casa destino = getCasa(casaDestino.getX(), casaDestino.getY());
         Pedra pecaOrigem = origem.getPeca();
 
-        int posX = (destino.getX() - origem.getX()) + destino.getX();
-        int posY = (destino.getY() - origem.getY()) + destino.getY();
+        // SENTIDO APONTADO COM VETOR DE TAMANHO UNITARIO NO X E NO Y
+        int sentidoX = (destino.getX() - origem.getX());
+        int sentidoY = (destino.getY() - origem.getY());
         
-        Casa proximaCasa = getCasa(posX, posY);        
+        // TORNANDO O VETOR UNITARIO
+        sentidoX = sentidoX/(Math.abs(sentidoX));
+        sentidoY = sentidoY/(Math.abs(sentidoY));
+        
+        Casa proximaCasa = getCasa((destino.getX() + sentidoX), (destino.getY() + sentidoY));
         pecaOrigem.mover(proximaCasa);
+        
         if (podeTransformarParaDama(proximaCasa)) transformarPedraParaDama(proximaCasa);
         destino.removerPeca();
     }
@@ -143,18 +149,35 @@ public class Tabuleiro {
         Pedra pedraOrigem = origem.getPeca();
         Pedra pedraDestino = destino.getPeca();
 
+        if (pedraDestino == null) {
+            return false;
+        } 
         // VERIFICA SE AS PEÇAS SÃO DO MESMO TIPO
-        if (pedraDestino == null) return false;
-        if (pedraOrigem.getTipo() == pedraDestino.getTipo()) return false;
-        if (pedraOrigem.getTipo() == Peca.PEDRA_BRANCA && pedraDestino.getTipo() == Peca.DAMA_BRANCA) return false;
-        if (pedraOrigem.getTipo() == Peca.PEDRA_VERMELHA && pedraDestino.getTipo() == Peca.DAMA_VERMELHA) return false;
+        else {
+            if (pedraOrigem.getTipo() == pedraDestino.getTipo()) {
+                return false;
+            } else {
+                if (pedraOrigem.getTipo() == Peca.PEDRA_BRANCA && pedraDestino.getTipo() == Peca.DAMA_BRANCA) {
+                    return false;
+                } else {
+                    if (pedraOrigem.getTipo() == Peca.PEDRA_VERMELHA && pedraDestino.getTipo() == Peca.DAMA_VERMELHA) return false;
+                }
+            }
+        }
 
+        // VERIFICA SE A PROXIMA CASA ESTA VAZIA
         if (destino.getPeca() !=  null) {
-            // Sentido apontado + uma casa
-            int posX = (destino.getX() - origem.getX() + destino.getX());
-            int posY = (destino.getY() - origem.getY() + destino.getY());
+            
+            // SENTIDO APONTADO
+            int sentidoX = (destino.getX() - origem.getX());
+            int sentidoY = (destino.getY() - origem.getY());
+            sentidoX = sentidoX/(Math.abs(sentidoX));
+            sentidoY = sentidoY/(Math.abs(sentidoY));
 
-            if (getCasa(posX, posY).getPeca() == null) return true;
+            // PROXIMA CASA DEPOIS DA CASA DE DESTINO NO SENTIDO APONTADO
+            Casa proximaCasa = getCasa((destino.getX() + sentidoX), (destino.getY() + sentidoY));
+
+            if (proximaCasa.getPeca() == null) return true;
 
         }
 
@@ -191,16 +214,16 @@ public class Tabuleiro {
      * Utilizado na inicialização do jogo.
      */
     public void criarPecas() {
-
         /**
-         * Cria e as poe as pecas brancas na parte inferior do tabuleiro 
+        * Cria e as poe as pecas brancas na parte inferior do tabuleiro 
         */
         for (int x = 0; x < 8; x++) {
             for (int y = 0; y < 3; y++) {
                 if((x % 2 == 0) && (y % 2 == 0)) {
                     Casa casa = getCasa(x, y);
-                    new Dama(casa, Peca.DAMA_BRANCA);
+                    new Pedra(casa, Peca.PEDRA_BRANCA);
                 }
+                
                 else if ((x % 2 != 0) && (y % 2 != 0)){
                     Casa casa = getCasa(x, y);
                     new Pedra(casa, Peca.PEDRA_BRANCA);

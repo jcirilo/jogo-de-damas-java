@@ -16,14 +16,14 @@ public class Tabuleiro {
     private Jogador jogadorVermelho; // controla as pedras vermelhas
     private Casa[][] casas;
     private int vezAtual;
-    private int jogada;
+    private int jogadas;
     private int jogadasSemComerPeca;
 
     public Tabuleiro() {
         montarTabuleiro();
         vezAtual = 1;
         jogadasSemComerPeca = 0;
-        jogada = 0;
+        jogadas = 0;
     }
 
     /**
@@ -41,21 +41,32 @@ public class Tabuleiro {
         Pedra peca = origem.getPeca();
 
         if (vezAtual == 1 && (peca.getTipo() == Pedra.PEDRA_BRANCA || peca.getTipo() == Pedra.DAMA_BRANCA)) {
+            
             if (peca.podeMover(destino)) {
+            
                 if (destino.getPeca() == null) {
-                    if (estaNaRegraDeMovimentoDoTabuleiro(origem, destino)) {
+            
+                    if (podeMoverTabuleiro(origem, destino)) {
                         peca.mover(destino);
+                        jogadas++;
+            
                         if (podeTransformarParaDama(destino)) transformarPedraParaDama(destino);
+
                         trocarDeVez();
                     }
                 }
             }
         } else {
             if (vezAtual == 2 && (peca.getTipo() == Pedra.PEDRA_VERMELHA || peca.getTipo() == Pedra.DAMA_VERMELHA)) {
+
                 if (peca.podeMover(destino)) {
+
                     if (destino.getPeca() == null) {
-                        if (estaNaRegraDeMovimentoDoTabuleiro(origem, destino)) {
+                    
+                        if (podeMoverTabuleiro(origem, destino)) {
                             peca.mover(destino);
+                            jogadas++;
+                            
                             if (podeTransformarParaDama(destino)) transformarPedraParaDama(destino);
                             trocarDeVez();
                         }
@@ -65,7 +76,16 @@ public class Tabuleiro {
         }
     }
 
-    public boolean estaNaRegraDeMovimentoDoTabuleiro(Casa origem, Casa destino) {
+    /**
+     * Simula o caminho do destino até a origem e verifica se:
+     * - Há peça de mesma cor no caminho
+     * - Se há mais de uma peça em sequência no caminho
+     * - Se há peças para comer no caminho, se verdadeiro come e adiciona pontos ao jogador 
+     * @param origem Casa de origem
+     * @param destino Casa de destino
+     * @return false se há peça de mesma cor no caminho, false se há mais de uma peça em sequência no caminho
+     */
+    private boolean podeMoverTabuleiro(Casa origem, Casa destino) {
         Pedra peca = origem.getPeca();
         int casasComPecaSeguidas = 0;
 
@@ -124,7 +144,6 @@ public class Tabuleiro {
                 return false;
             }
         }
-        
         return true;
     }
 
@@ -135,16 +154,14 @@ public class Tabuleiro {
      */
     private boolean podeTransformarParaDama(Casa casa) {
         
-        // Regra para pecas brancas
+        // REGRA PARA PEÇAS BRANCAS
         if (casa.getPeca().getTipo() == Peca.PEDRA_BRANCA) {
             if (casa.getY() == 7) return true;
-            return false;
         }
         
-        // Regra para epcas vermelhas
+        // REGRA PARA PEÇAS VERMELHAS
         if (casa.getPeca().getTipo() == Peca.PEDRA_VERMELHA) {
             if (casa.getY() == 0) return true;
-            return false;
         }
 
         return false;
@@ -188,9 +205,8 @@ public class Tabuleiro {
      * Utilizado na inicialização do jogo.
      */
     public void criarPecas() {
-        /**
-        * Cria e as poe as pecas brancas na parte inferior do tabuleiro 
-        */
+
+        // CRIA E PÕE AS PEÇAS NA PARTE INFERIOR DO TABULEIRO
         for (int x = 0; x < 8; x++) {
             for (int y = 0; y < 3; y++) {
                 if((x % 2 == 0) && (y % 2 == 0)) {
@@ -206,9 +222,8 @@ public class Tabuleiro {
 
         }
 
-        /**
-         * Cria e as poe as pecas vermelhas na parte superior do tabuleiro
-        */
+
+        // CRIA E POE AS PEÇAS NA PARTE SUPERIOR DO TABULEIRO
         for (int x = 0; x < 8; x++) {
             for (int y = 5; y < 8; y++) {
                 if ((x % 2 != 0) && (y % 2 != 0)) {
@@ -260,6 +275,6 @@ public class Tabuleiro {
     }
 
     public int getJogada() {
-        return jogada;
+        return jogadas;
     }
 }

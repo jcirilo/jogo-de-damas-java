@@ -45,19 +45,45 @@ public class Pedra implements Peca {
      */
     @Override
     public boolean podeMover(Casa destino) {
-        int deltaY = destino.getY() - casa.getY();
-        int deltaX = Math.abs((destino.getX() - casa.getX()));
+
+        // SENTIDO UNITÁRIO E DISTANCIA X E Y DA CASA ATUAL ATÉ A CASA DE DESTINO
+        int sentidoX = (destino.getX() - casa.getX());
+        int sentidoY = (destino.getY() - casa.getY());
+        int deltaX = Math.abs(sentidoX);
+        int deltaY = Math.abs(sentidoY);
+
+        if ((deltaX == 0) || (deltaY == 0)) return false;
         
-        // Regra de movimento das pedras posicionadas na parte inferior
-        if ((tipo == Peca.PEDRA_BRANCA) || (tipo == Peca.DAMA_BRANCA)) {
-            if (deltaY == 1 && deltaX == 1) return true;
-            return false;
+        sentidoX = sentidoX/deltaX;
+        sentidoY = sentidoY/deltaY;
+        
+        
+        // REGRA DE MOVIMENTO NO CASO DA DISTÂNCIA SER DE 2 CASAS (MOVIMENTO DE COMER PEÇA)
+        if ((deltaX == 2 || deltaY == 2) && (deltaX == deltaY)) {
+            return true;
         }
-        // Regra de movimento das pedras posicionadas na parte superior 
-        else {
-            if (deltaY == -1 && deltaX == 1) return true;
-            return false;
+
+        // REGRA DE MOVIMENTO NO CASO DA DISTÂNCIA SER ADJACENTE (MOVIMENTO PADRÃO).
+        // NESTE CASO A PEÇA VERMELHA NÃO PODE VOLTAR NEM A BRANCA.
+        // REGRA DE MOVIMENTO PARA AS PEDRAS BRANCAS
+        if (tipo == Pedra.PEDRA_BRANCA) {
+            if ((deltaX == 1 || deltaY == 1) && (deltaX == deltaY) && sentidoY == 1) {
+                return true;
+            } else {
+                return false;
+            }
         }
+
+        // REGRA DE MOVIMENTO DAS PEDRAS VERMELHAS
+        if (tipo == Pedra.PEDRA_VERMELHA) {
+            if ((deltaX == 1 || deltaY == 1) && (deltaX == deltaY) && sentidoY == -1) {
+                return true;
+            } else {
+                return false;
+            }
+        }
+
+        return false;
     }
 
         /**

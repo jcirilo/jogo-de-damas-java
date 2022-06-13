@@ -1,15 +1,23 @@
 package com.damas;
 
-import com.damas.gui.JanelaPrincipalGUI;
+import com.damas.gui.JogoGUI;
 
+
+/**
+ * TODO - ADICIONAR ELEMENTOS AO GUI:
+ * - gui do jogador que está com a vez
+ * - gui nº da jogada
+ * - gui dos pontos dos jogadores branco e vermelho
+ * - gui tela de fim de jogo
+ */
 public class App {
     public static void main(String args[]) {
 
-        /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new JanelaPrincipalGUI().setVisible(true);
+                new JogoGUI().setVisible(true);
             }
         });
+
     }
 }

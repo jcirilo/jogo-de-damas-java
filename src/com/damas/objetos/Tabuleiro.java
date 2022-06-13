@@ -1,6 +1,7 @@
 package com.damas.objetos;
 
-// TODO - REFATORAAAAR!!!!
+// TODO - Refatorar!
+// TODO - Método para verificar se há mais peças adjacentes depois de uma jogada com ponto marcado
 
 /**
  * O Tabuleiro do jogo.
@@ -145,6 +146,24 @@ public class Tabuleiro {
             }
         }
         return true;
+    }
+
+    private boolean temPecasAdjacentes(int x, int y) {
+
+        // VERFIFICA SE O DESTINO DA PEÇA FOI PARA O CANTO 
+        // TORNADO INVIÁVEL HAVER QUALQUER PEÇA ADJACENTE PARA COMER
+        
+        if ((x == 0 && y == 0) ||
+            (x == 0 && y == 6) ||
+            (x == 1 && y == 7) || 
+            (x == 7 && y == 7) || 
+            (x == 7 && y == 1) ||
+            (x == 6 && y == 0)) {
+            return false;
+        } else {
+        }
+
+        return false;
     }
 
     /**

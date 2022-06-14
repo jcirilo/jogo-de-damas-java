@@ -157,6 +157,10 @@ public class Tabuleiro {
      */
     private int comerPecas() {
         int pecasComidas = pecasAComer.size();
+
+        if (getVez() == 1) jogadorBranco.addPonto(pecasComidas);
+        if (getVez() == 2) jogadorVermelho.addPonto(pecasComidas);
+        
         return pecasComidas;
     }
 

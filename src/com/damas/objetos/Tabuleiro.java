@@ -7,6 +7,9 @@ package com.damas.objetos;
  * O Tabuleiro do jogo.
  * Responsável por armazenar as 64 casas do jogo e por possuir as regras de: 
  * comer, adicionar pontos caso um jogador coma uma peça, movimento NO tabuleiro (Não da peca)
+ * @author Alan Moraes &lt;alan@ci.ufpb.br&gt;
+ * @author Leonardo Villeth &lt;lvilleth@cc.ci.ufpb.br&gt;
+ * @author João Victor da S. Cirilo joao.cirilo@academico.ufpb.br
  */
 public class Tabuleiro {
     
@@ -148,23 +151,23 @@ public class Tabuleiro {
         return true;
     }
 
-    private boolean temPecasAdjacentes(int x, int y) {
+    // private boolean temPecasAdjacentes(int x, int y) {
 
-        // VERFIFICA SE O DESTINO DA PEÇA FOI PARA O CANTO 
-        // TORNADO INVIÁVEL HAVER QUALQUER PEÇA ADJACENTE PARA COMER
+    //     // VERFIFICA SE O DESTINO DA PEÇA FOI PARA O CANTO 
+    //     // TORNADO INVIÁVEL HAVER QUALQUER PEÇA ADJACENTE PARA COMER
         
-        if ((x == 0 && y == 0) ||
-            (x == 0 && y == 6) ||
-            (x == 1 && y == 7) || 
-            (x == 7 && y == 7) || 
-            (x == 7 && y == 1) ||
-            (x == 6 && y == 0)) {
-            return false;
-        } else {
-        }
+    //     if ((x == 0 && y == 0) ||
+    //         (x == 0 && y == 6) ||
+    //         (x == 1 && y == 7) || 
+    //         (x == 7 && y == 7) || 
+    //         (x == 7 && y == 1) ||
+    //         (x == 6 && y == 0)) {
+    //         return false;
+    //     } else {
+    //     }
 
-        return false;
-    }
+    //     return false;
+    // }
 
     /**
      * Verifica se a pedra pode virar dama.

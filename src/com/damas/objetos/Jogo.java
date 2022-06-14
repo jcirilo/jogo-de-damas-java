@@ -5,6 +5,7 @@ package com.damas.objetos;
  * 
  * @author Alan Moraes &lt;alan@ci.ufpb.br&gt;
  * @author Leonardo Villeth &lt;lvilleth@cc.ci.ufpb.br&gt;
+ * @author João Victor da S. Cirilo joao.cirilo@academico.ufpb.br
  */
 public class Jogo {
 

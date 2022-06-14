@@ -7,13 +7,20 @@ import javax.swing.JOptionPane;
 
 // import javax.swing.JOptionPane;
 
+/**
+ * Tela do jogo.
+ * Respons�vel por reagir aos cliques feitos pelo jogador.
+ * 
+ * @author Alan Moraes &lt;alan@ci.ufpb.br&gt;
+ * @author Leonardo Villeth &lt;lvilleth@cc.ci.ufpb.br&gt;
+ */
 import com.damas.objetos.Jogo;
 
 /**
  * Tela do jogo.
  * Responsável por reagir aos cliques feitos pelo jogador.
  */
-public class JogoGUI extends JFrame {
+public class JanelaPrincipal extends JFrame {
 
     private Jogo jogo;
     private boolean primeiroClique;
@@ -31,7 +38,7 @@ public class JogoGUI extends JFrame {
                 casaClicadaOrigem.destacar();
                 primeiroClique = false;
             }
-            else { // Clicou em uma posição inválida, então não faz nada.
+            else {
               JOptionPane.showMessageDialog(this, "Clique em uma peça.");
             }
         }
@@ -48,9 +55,9 @@ public class JogoGUI extends JFrame {
     /**
      * Construtor da classe.
      */
-    public JogoGUI() {
-        initComponents();
+    public JanelaPrincipal() {
 
+        initComponents();
         this.primeiroClique = true;
         this.casaClicadaOrigem = null;
         this.casaClicadaDestino = null;

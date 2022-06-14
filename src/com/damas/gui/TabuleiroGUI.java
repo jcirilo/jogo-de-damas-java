@@ -11,16 +11,19 @@ import com.damas.objetos.Tabuleiro;
 
 /**
  * Interface Grafica do Tabuleiro do jogo.
+ * 
+ * @author Alan Moraes &lt;alan@ci.ufpb.br&gt;
+ * @author Leonardo Villeth &lt;lvilleth@cc.ci.ufpb.br&gt;
  */
 public class TabuleiroGUI extends JPanel {
 
-    private JogoGUI janela;
+    private JanelaPrincipal janela;
     private CasaGUI[][] casas;
 
     public TabuleiroGUI() {
     }
 
-    public TabuleiroGUI(JogoGUI janela) {
+    public TabuleiroGUI(JanelaPrincipal janela) {
         this.janela = janela;
         initComponents();
         criarCasas();
@@ -103,7 +106,7 @@ public class TabuleiroGUI extends JPanel {
         }
     }
 
-    public JogoGUI getJanela() {
+    public JanelaPrincipal getJanela() {
         return janela;
     }
 

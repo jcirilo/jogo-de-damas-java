@@ -1,7 +1,7 @@
 package com.damas.objetos;
 
 /**
- * @author João Victor da S. Cirilo joao.cirilo@academico.ufpb
+ * @author João Victor da S. Cirilo joao.cirilo@academico.ufpb.br
  */
 public class Jogador {
     public static final String DEFAULT_NAME = "Anônimo";

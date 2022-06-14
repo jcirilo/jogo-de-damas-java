@@ -1,5 +1,7 @@
 package com.damas.objetos;
 
+import java.util.ArrayList;
+
 // TODO - Refatorar!
 // TODO - Método para verificar se há mais peças adjacentes depois de uma jogada com ponto marcado
 
@@ -16,12 +18,13 @@ public class Tabuleiro {
     public static final int MAX_LINHAS = 8;
     public static final int MAX_COLUNAS = 8;
  
-    private Jogador jogadorBranco; // controla as pedras brancas
-    private Jogador jogadorVermelho; // controla as pedras vermelhas
+    private Jogador jogadorBranco;
+    private Jogador jogadorVermelho;
     private Casa[][] casas;
     private int vezAtual;
     private int jogadas;
     private int jogadasSemComerPeca;
+    private ArrayList<Casa> pecasAComer;
 
     public Tabuleiro() {
         montarTabuleiro();
@@ -46,34 +49,28 @@ public class Tabuleiro {
 
         if (vezAtual == 1 && (peca.getTipo() == Pedra.PEDRA_BRANCA || peca.getTipo() == Pedra.DAMA_BRANCA)) {
             
-            if (peca.podeMover(destino)) {
+            if (peca.isMovimentoValido(destino)) {
+                        
+                if (podePercorrerNoTabuleiro(origem, destino)) {
+                    peca.mover(destino);
+                    jogadas++;
             
-                if (destino.getPeca() == null) {
-            
-                    if (podeMoverTabuleiro(origem, destino)) {
-                        peca.mover(destino);
-                        jogadas++;
-            
-                        if (podeTransformarParaDama(destino)) transformarPedraParaDama(destino);
+                    if (podeTransformarParaDama(destino)) transformarPedraParaDama(destino);
 
-                        trocarDeVez();
-                    }
+                    trocarDeVez();
                 }
             }
         } else {
             if (vezAtual == 2 && (peca.getTipo() == Pedra.PEDRA_VERMELHA || peca.getTipo() == Pedra.DAMA_VERMELHA)) {
 
-                if (peca.podeMover(destino)) {
-
-                    if (destino.getPeca() == null) {
+                if (peca.isMovimentoValido(destino)) {
                     
-                        if (podeMoverTabuleiro(origem, destino)) {
-                            peca.mover(destino);
-                            jogadas++;
-                            
-                            if (podeTransformarParaDama(destino)) transformarPedraParaDama(destino);
-                            trocarDeVez();
-                        }
+                    if (podePercorrerNoTabuleiro(origem, destino)) {
+                        peca.mover(destino);
+                        jogadas++;
+                        
+                        if (podeTransformarParaDama(destino)) transformarPedraParaDama(destino);
+                        trocarDeVez();
                     }
                 }
             }
@@ -89,22 +86,28 @@ public class Tabuleiro {
      * @param destino Casa de destino
      * @return false se há peça de mesma cor no caminho, false se há mais de uma peça em sequência no caminho
      */
-    private boolean podeMoverTabuleiro(Casa origem, Casa destino) {
+    private boolean podePercorrerNoTabuleiro(Casa origem, Casa destino) {
         Pedra peca = origem.getPeca();
         int casasComPecaSeguidas = 0;
 
-        // SENTIDO DO MOVIMENTO
+        if (destino.getPeca() != null) return false;
+
+        // SENTIDO DO MOVIMENTO E DISTÂNCIA DO MOVIMENTO
         int sentidoX = (destino.getX() - origem.getX());
         int sentidoY = (destino.getY() - origem.getY());
-        int deltaX = Math.abs(sentidoX); 
-        int deltaY = Math.abs(sentidoY); 
+        int distanciaX = Math.abs(sentidoX); 
+        int distanciaY = Math.abs(sentidoY); 
         
-        if ((deltaX == 0) || (deltaY == 0)) return false;
+        if ((distanciaX == 0) || (distanciaY == 0)) return false;
 
-        sentidoX = sentidoX/deltaX;
-        sentidoY = sentidoY/deltaY;
+        sentidoX = sentidoX/distanciaX;
+        sentidoY = sentidoY/distanciaY;
 
-        
+        if ((distanciaX == 2 && distanciaY == 2) && (peca.getTipo() == Pedra.PEDRA_BRANCA) || (peca.getTipo() == Pedra.PEDRA_VERMELHA)) {
+            Casa casa = getCasa((destino.getX() - sentidoX), (destino.getY() -sentidoY));
+            if (casa.getPeca() == null) return false;
+        }
+
         //PERCORRER AS CASAS E VERIFICAR:
         // 1 - SE HÁ MAIS DE UMA PEÇA SEGUIDA NO CAMINHO (VERDADEIRO RETORNA FALSO)
         // 2 - SE HÁ UMA PEÇA NO CAMINHO E É DA MESMA COR (VERDADEIRO RETORNA FALSO)
@@ -133,13 +136,10 @@ public class Tabuleiro {
 
             } else {
 
-                // COMER PEÇA E ADICIONAR PONTO AO JOGADOR
+                // VE SE HÁ PEÇA PARA COMER NO CAMINHO E PASSAR A CASA À COLEÇÃO pecasAComer() PARA DEPOIS COME-LAS
                 if (casasComPecaSeguidas == 1) {
-                    getCasa((alvo.getX() - sentidoX), (alvo.getY() - sentidoY)).removerPeca();
-
-                    // ADICIONAR PONTOS AO JOGADOR QUE COMEU A PEÇA
-                    if (getVez() == 1) jogadorBranco.addPonto();
-                    if (getVez() == 2) jogadorVermelho.addPonto();
+                    Casa casa = getCasa((alvo.getX() - sentidoX), (alvo.getY() - sentidoY));
+                    //TODO - peçasAComer.add(casa);
                 }
                 casasComPecaSeguidas = 0;
             }
@@ -151,23 +151,14 @@ public class Tabuleiro {
         return true;
     }
 
-    // private boolean temPecasAdjacentes(int x, int y) {
-
-    //     // VERFIFICA SE O DESTINO DA PEÇA FOI PARA O CANTO 
-    //     // TORNADO INVIÁVEL HAVER QUALQUER PEÇA ADJACENTE PARA COMER
-        
-    //     if ((x == 0 && y == 0) ||
-    //         (x == 0 && y == 6) ||
-    //         (x == 1 && y == 7) || 
-    //         (x == 7 && y == 7) || 
-    //         (x == 7 && y == 1) ||
-    //         (x == 6 && y == 0)) {
-    //         return false;
-    //     } else {
-    //     }
-
-    //     return false;
-    // }
+    /**
+     * Limpa as peças a comer na variável "pecasAComer", e retorna a quantidade de peças comidas.
+     * @return int quantidade de peças comidas.
+     */
+    private int comerPecas() {
+        int pecasComidas = pecasAComer.size();
+        return pecasComidas;
+    }
 
     /**
      * Verifica se a pedra pode virar dama.

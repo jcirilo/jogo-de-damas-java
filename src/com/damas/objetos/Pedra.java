@@ -44,22 +44,21 @@ public class Pedra implements Peca {
      * @return boolean, se a distância for igual a uma casa, true caso contrário false.
      */
     @Override
-    public boolean podeMover(Casa destino) {
+    public boolean isMovimentoValido(Casa destino) {
 
         // SENTIDO UNITÁRIO E DISTANCIA X E Y DA CASA ATUAL ATÉ A CASA DE DESTINO
         int sentidoX = (destino.getX() - casa.getX());
         int sentidoY = (destino.getY() - casa.getY());
-        int deltaX = Math.abs(sentidoX);
-        int deltaY = Math.abs(sentidoY);
+        int distanciaX = Math.abs(sentidoX);
+        int distanciaY = Math.abs(sentidoY);
 
-        if ((deltaX == 0) || (deltaY == 0)) return false;
+        if ((distanciaX == 0) || (distanciaY == 0)) return false;
         
-        sentidoX = sentidoX/deltaX;
-        sentidoY = sentidoY/deltaY;
-        
-        
+        sentidoX = sentidoX/distanciaX;
+        sentidoY = sentidoY/distanciaY;
+
         // REGRA DE MOVIMENTO NO CASO DA DISTÂNCIA SER DE 2 CASAS (MOVIMENTO DE COMER PEÇA)
-        if ((deltaX == 2 || deltaY == 2) && (deltaX == deltaY)) {
+        if ((distanciaX == 2 || distanciaY == 2) && (distanciaX == distanciaY)) {
             return true;
         }
 
@@ -67,7 +66,7 @@ public class Pedra implements Peca {
         // NESTE CASO A PEÇA VERMELHA NÃO PODE VOLTAR NEM A BRANCA.
         // REGRA DE MOVIMENTO PARA AS PEDRAS BRANCAS
         if (tipo == Pedra.PEDRA_BRANCA) {
-            if ((deltaX == 1 || deltaY == 1) && (deltaX == deltaY) && sentidoY == 1) {
+            if ((distanciaX == 1 || distanciaY == 1) && (distanciaX == distanciaY) && sentidoY == 1) {
                 return true;
             } else {
                 return false;
@@ -76,7 +75,7 @@ public class Pedra implements Peca {
 
         // REGRA DE MOVIMENTO DAS PEDRAS VERMELHAS
         if (tipo == Pedra.PEDRA_VERMELHA) {
-            if ((deltaX == 1 || deltaY == 1) && (deltaX == deltaY) && sentidoY == -1) {
+            if ((distanciaX == 1 || distanciaY == 1) && (distanciaX == distanciaY) && sentidoY == -1) {
                 return true;
             } else {
                 return false;

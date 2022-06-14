@@ -20,16 +20,12 @@ public class Dama extends Pedra{
      * @return boolean. True se puder ser movida e false se não 
      */
    @Override
-    public boolean podeMover(Casa destino) {
-        int deltaX = Math.abs((destino.getX() - casa.getX()));
-        int deltaY = Math.abs((destino.getY() - casa.getY()));
+    public boolean isMovimentoValido(Casa destino) {
+        int distanciaX = Math.abs((destino.getX() - casa.getX()));
+        int distanciaY = Math.abs((destino.getY() - casa.getY()));
 
-        if (deltaX == deltaY) return true;
+        if (distanciaX == distanciaY) return true;
 
         return false;
-    }
-
-    public Casa temPecaParaComer(Casa destino) {
-        return destino;
     }
 }

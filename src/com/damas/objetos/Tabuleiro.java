@@ -2,8 +2,6 @@ package com.damas.objetos;
 
 import java.util.ArrayList;
 
-// TODO - Refatorar!
-
 /**
  * O Tabuleiro do jogo.
  * Responsável por armazenar as 64 casas do jogo e por possuir as regras de:
@@ -12,6 +10,7 @@ import java.util.ArrayList;
  * @author Leonardo Villeth &lt;lvilleth@cc.ci.ufpb.br&gt;
  * @author João Victor da S. Cirilo joao.cirilo@academico.ufpb.br
  */
+
 public class Tabuleiro {
     
     public static final int MAX_LINHAS = 8;
@@ -137,23 +136,24 @@ public class Tabuleiro {
         if ((distanciaX == 2 && distanciaY == 2) && (peca.getTipo() == Pedra.PEDRA_BRANCA) || (peca.getTipo() == Pedra.PEDRA_VERMELHA)) {
             Casa casa = getCasa((destino.getX() - sentidoX), (destino.getY() -sentidoY));
             if (casa.getPeca() == null) return false;
-        }
-
-        // REGRA DE MOVIMENTO DAS PEDRAS NO TABULEIRO CASO A DISTÂNCIA ATÉ A CASA CLICADA SEJA DE 1 BLOCO
-        if (peca.getTipo() == Pedra.PEDRA_BRANCA) {
-            if ((distanciaX == 1 || distanciaY == 1) && (distanciaX == distanciaY) && sentidoY == 1) {
-                return true;
-            } else {
-                return false;
+        } else {
+            
+            // REGRA DE MOVIMENTO DAS PEDRAS NO TABULEIRO CASO A DISTÂNCIA ATÉ A CASA CLICADA SEJA DE 1 BLOCO
+            if (peca.getTipo() == Pedra.PEDRA_BRANCA) {
+                if ((distanciaX == 1 || distanciaY == 1) && (distanciaX == distanciaY) && sentidoY == 1) {
+                    return true;
+                } else {
+                    return false;
+                }
             }
-        }
 
-        // REGRA DE MOVIMENTO DAS PEDRAS VERMELHAS
-        if (peca.getTipo() == Pedra.PEDRA_VERMELHA) {
-            if ((distanciaX == 1 || distanciaY == 1) && (distanciaX == distanciaY) && sentidoY == -1) {
-                return true;
-            } else {
-                return false;
+            // REGRA DE MOVIMENTO DAS PEDRAS VERMELHAS
+            if (peca.getTipo() == Pedra.PEDRA_VERMELHA) {
+                if ((distanciaX == 1 || distanciaY == 1) && (distanciaX == distanciaY) && sentidoY == -1) {
+                    return true;
+                } else {
+                    return false;
+                }
             }
         }
 

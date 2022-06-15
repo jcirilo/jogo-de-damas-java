@@ -1,6 +1,10 @@
-A CLASSE JOGO APENAS MONTA A PARTIDA
-A REGRA DE MOVIMENTO DAS PEÇAS ESTAO NO MÉTODO "podeMover()" DENTRO DE SUA CLASSE
-A LÓGICA DAS REGRAS DO JOGO ESTÃO NA CLASSE "Tabuleiro.java"
-TEMO SOPRO SIM!
-
 AUTHOR: João Victor da Silva Cirilo <joao.cirilo@academico.ufpb>
+VERSION: 3.6.2022
+
+VÍDEO DO PROJETO:
+
+
+A classe que possui o método main() é "App.java".
+
+REGULAMENTOS DO JOGO:
+

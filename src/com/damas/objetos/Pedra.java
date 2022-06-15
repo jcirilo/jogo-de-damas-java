@@ -47,39 +47,14 @@ public class Pedra implements Peca {
     public boolean isMovimentoValido(Casa destino) {
 
         // SENTIDO UNITÁRIO E DISTANCIA X E Y DA CASA ATUAL ATÉ A CASA DE DESTINO
-        int sentidoX = (destino.getX() - casa.getX());
-        int sentidoY = (destino.getY() - casa.getY());
-        int distanciaX = Math.abs(sentidoX);
-        int distanciaY = Math.abs(sentidoY);
+        int distanciaX = Math.abs(destino.getX() - casa.getX());
+        int distanciaY = Math.abs(destino.getY() - casa.getY());
 
         if ((distanciaX == 0) || (distanciaY == 0)) return false;
-        
-        sentidoX = sentidoX/distanciaX;
-        sentidoY = sentidoY/distanciaY;
 
         // REGRA DE MOVIMENTO NO CASO DA DISTÂNCIA SER DE 2 CASAS (MOVIMENTO DE COMER PEÇA)
-        if ((distanciaX == 2 || distanciaY == 2) && (distanciaX == distanciaY)) {
+        if ((distanciaX <= 2 || distanciaY <= 2) && (distanciaX == distanciaY)) {
             return true;
-        }
-
-        // REGRA DE MOVIMENTO NO CASO DA DISTÂNCIA SER ADJACENTE (MOVIMENTO PADRÃO).
-        // NESTE CASO A PEÇA VERMELHA NÃO PODE VOLTAR NEM A BRANCA.
-        // REGRA DE MOVIMENTO PARA AS PEDRAS BRANCAS
-        if (tipo == Pedra.PEDRA_BRANCA) {
-            if ((distanciaX == 1 || distanciaY == 1) && (distanciaX == distanciaY) && sentidoY == 1) {
-                return true;
-            } else {
-                return false;
-            }
-        }
-
-        // REGRA DE MOVIMENTO DAS PEDRAS VERMELHAS
-        if (tipo == Pedra.PEDRA_VERMELHA) {
-            if ((distanciaX == 1 || distanciaY == 1) && (distanciaX == distanciaY) && sentidoY == -1) {
-                return true;
-            } else {
-                return false;
-            }
         }
 
         return false;

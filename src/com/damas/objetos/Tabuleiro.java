@@ -3,7 +3,6 @@ package com.damas.objetos;
 import java.util.ArrayList;
 
 // TODO - Refatorar!
-// TODO - Método para verificar se há mais peças adjacentes depois de uma jogada com ponto marcado
 
 /**
  * O Tabuleiro do jogo.
@@ -118,9 +117,28 @@ public class Tabuleiro {
         sentidoX = sentidoX/distanciaX;
         sentidoY = sentidoY/distanciaY;
 
+        // REGRA DE MOVIMENTO DAS PEDRAS NO TABULEIRO CASO A DISTÂNCIA ATÉ A CASA CLICADA SEJA DE 2 BLOCOS
         if ((distanciaX == 2 && distanciaY == 2) && (peca.getTipo() == Pedra.PEDRA_BRANCA) || (peca.getTipo() == Pedra.PEDRA_VERMELHA)) {
             Casa casa = getCasa((destino.getX() - sentidoX), (destino.getY() -sentidoY));
             if (casa.getPeca() == null) return false;
+        }
+
+        // REGRA DE MOVIMENTO DAS PEDRAS NO TABULEIRO CASO A DISTÂNCIA ATÉ A CASA CLICADA SEJA DE 1 BLOCO
+        if (peca.getTipo() == Pedra.PEDRA_BRANCA) {
+            if ((distanciaX == 1 || distanciaY == 1) && (distanciaX == distanciaY) && sentidoY == 1) {
+                return true;
+            } else {
+                return false;
+            }
+        }
+
+        // REGRA DE MOVIMENTO DAS PEDRAS VERMELHAS
+        if (peca.getTipo() == Pedra.PEDRA_VERMELHA) {
+            if ((distanciaX == 1 || distanciaY == 1) && (distanciaX == distanciaY) && sentidoY == -1) {
+                return true;
+            } else {
+                return false;
+            }
         }
 
         //PERCORRER AS CASAS E VERIFICAR:

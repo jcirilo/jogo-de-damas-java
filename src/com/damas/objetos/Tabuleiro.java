@@ -92,13 +92,29 @@ public class Tabuleiro {
     }
 
     /**
-     * Simula o caminho do destino até a origem e verifica se:
-     * - Há peça de mesma cor no caminho
-     * - Se há mais de uma peça em sequência no caminho
-     * - Se há peças para comer no caminho, se verdadeiro come e adiciona pontos ao jogador 
+     * <p>
+     * Percorre as casas da casa de origem clicada até a casa de destino clicada e
+     * verifica se o caminho é valido.
+     * </p> 
+     * 
+     * <p>
+     * Também adiciona objetos a lista de casas com peça disponivel para comer, mas caso
+     * o movimento seja invalidado pelo método, se houve casas adicionadas a essa lista, serão removidas.
+     * </p>
+     * 
      * @param origem Casa de origem
      * @param destino Casa de destino
-     * @return false se há peça de mesma cor no caminho, false se há mais de uma peça em sequência no caminho
+     * @return
+     *  <ul>
+     *      <li>{@code false} Se o destino clicado tiver uma peça</li>  
+     *      <li>{@code false} Se tiver uma pedra de mesma cor no caminho</li>
+     *      <li>{@code false} Se tiver mais de uma pedra em sequência no caminho</li>
+     *      <li>{@code false} Se o tipo for Pedra:
+     *          <ul>
+     *              <li>{@code false} Se a distância for de uma casa voltando</li>
+     *              <li>{@code false} Se a distância for de duas casas e não tiver peça para comer</li>
+     *          </ul>
+        </ul>
      */
     private boolean percorrerNoTabuleiro(Casa origem, Casa destino) {
         Pedra peca = origem.getPeca();
@@ -159,10 +175,12 @@ public class Tabuleiro {
 
                 // VE SE TEM UMA PECA DO MESMO TIPO NO CAMNHO, CASO TENHA, RETORNA FALSE
                 if ((peca.getTipo() == Peca.PEDRA_BRANCA || peca.getTipo() == Peca.DAMA_BRANCA) && (pecaAlvo.getTipo() == Pedra.PEDRA_BRANCA || pecaAlvo.getTipo() == Pedra.DAMA_BRANCA)) {
+                    if (pecasAComer.size() > 0) pecasAComer.removeAll(pecasAComer);
                     return false;
                 }
 
                 if ((peca.getTipo() == Peca.PEDRA_VERMELHA || peca.getTipo() == Peca.DAMA_VERMELHA) && (pecaAlvo.getTipo() == Pedra.PEDRA_VERMELHA || pecaAlvo.getTipo() == Pedra.DAMA_VERMELHA)) {
+                    if (pecasAComer.size() > 0) pecasAComer.removeAll(pecasAComer);
                     return false;
                 }
 
@@ -177,13 +195,28 @@ public class Tabuleiro {
             }
 
             if (casasComPecaSeguidas == 2) {
+                if (pecasAComer.size() > 0) pecasAComer.removeAll(pecasAComer);
                 return false;
             }
         }
         return true;
     }
 
-    private boolean verificarSeTemPecaParaComer(Casa origem, int direcaoX, int direcaoY) {
+    /**
+     * <p>
+     * Percorre as casas do tabuleirio a partir da casa de origem indicada no sentido dado
+     * por {@code sentidoX} e {@code sentidoY}.
+     * </p>
+     * @param origem Casa de origem da peça
+     * @param sentidoX Delta X
+     * @param sentidoY Delta Y
+     * @return 
+     *  <ul>
+     *      <li>{@code false} Se há uma pedra de mesma cor no caminho</li>
+     *      <li>{@code false} Se há mais de uma pedra em sequência no caminho</li>
+     *  </ul>
+     */
+    private boolean verificarSeTemPecaParaComer(Casa origem, int sentidoX, int sentidoY) {
 
         Pedra peca = origem.getPeca();
         int x = origem.getX();
@@ -191,8 +224,8 @@ public class Tabuleiro {
         int pecasSeguidasNoCaminho = 0;
 
         while (!((x == 0 || x == 7) || (y == 0 || y == 7))) {
-            x += direcaoX;
-            y += direcaoY;
+            x += sentidoX;
+            y += sentidoY;
 
             Pedra pecaAtual = getCasa(x, y).getPeca();
 
@@ -227,6 +260,14 @@ public class Tabuleiro {
         return false;
     }
 
+    /**
+     * <p>
+     * Dispara o método {@code verificarSeTemPecaParaComer()} no sentido
+     * das quatro diagonais a partir da casa indicada.
+     * </p>
+     * @param origem Casa de onde vai partir a verifição
+     * @return {@code true} Se há peça para comer em alguma diagonal
+     */
     private boolean podeContinuarJogado(Casa origem) {
 
         if (verificarSeTemPecaParaComer(origem, -1, 1)) return true;

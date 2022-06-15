@@ -2,7 +2,6 @@ package com.damas;
 
 import com.damas.gui.JanelaPrincipal;
 
-
 /**
  * TODO - ADICIONAR ELEMENTOS AO GUI:
  * - gui do jogador que está com a vez

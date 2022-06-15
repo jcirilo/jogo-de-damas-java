@@ -60,11 +60,11 @@ public class CasaGUI extends JButton {
     }
 
     public int getPosicaoX() {
-        return x;
+        return this.x;
     }
 
     public int getPosicaoY() {
-        return y;
+        return this.y;
     }
 
     public void desenharPedraBranca() {

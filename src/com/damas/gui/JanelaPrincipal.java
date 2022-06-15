@@ -5,56 +5,22 @@ import java.awt.event.ActionListener;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
-// import javax.swing.JOptionPane;
-
-/**
- * Tela do jogo.
- * Respons�vel por reagir aos cliques feitos pelo jogador.
- * 
- * @author Alan Moraes &lt;alan@ci.ufpb.br&gt;
- * @author Leonardo Villeth &lt;lvilleth@cc.ci.ufpb.br&gt;
- */
 import com.damas.objetos.Jogo;
 
 /**
  * Tela do jogo.
- * Responsável por reagir aos cliques feitos pelo jogador.
+ * Responsável por reagir aos cliques feitos pelo jogador. 
+ * @author Alan Moraes &lt;alan@ci.ufpb.br&gt;
+ * @author Leonardo Villeth &lt;lvilleth@cc.ci.ufpb.br&gt;
  */
+
 public class JanelaPrincipal extends JFrame {
 
     private Jogo jogo;
     private boolean primeiroClique;
     private CasaGUI casaClicadaOrigem;
     private CasaGUI casaClicadaDestino;
-    
-    /**
-     * Responde aos cliques realizados no tabuleiro. 
-     * @param casaClicada Casa que o jogador clicou.
-     */
-    public void reagir(CasaGUI casaClicada) {
-        if (primeiroClique) {
-            if (casaClicada.possuiPeca()) {
-                casaClicadaOrigem = casaClicada;
-                casaClicadaOrigem.destacar();
-                primeiroClique = false;
-            }
-            else {
-              JOptionPane.showMessageDialog(this, "Clique em uma peça.");
-            }
-        }
-        else {
-            casaClicadaDestino = casaClicada;
-            jogo.getTabuleiro().moverPeca(casaClicadaOrigem.getPosicaoX(), casaClicadaOrigem.getPosicaoY(), casaClicadaDestino.getPosicaoX(), casaClicadaDestino.getPosicaoY());
-            casaClicadaOrigem.atenuar();
-            primeiroClique = true;
-            atualizar();
-        }
-    }
-    
 
-    /**
-     * Construtor da classe.
-     */
     public JanelaPrincipal() {
 
         initComponents();
@@ -82,8 +48,44 @@ public class JanelaPrincipal extends JFrame {
         super.setVisible(true);
         super.pack();
     }
-
     
+    /**
+     * Responde aos cliques realizados no tabuleiro. 
+     * @param casaClicada Casa que o jogador clicou.
+     */
+    public void reagir(CasaGUI casaClicada) {
+        if (primeiroClique) {
+            if (casaClicada.possuiPeca()) {
+                casaClicadaOrigem = casaClicada;
+                casaClicadaOrigem.destacar();
+                primeiroClique = false;
+            }
+            else {
+              JOptionPane.showMessageDialog(this, "Clique em uma peça.");
+            }
+        }
+        else {
+            casaClicadaDestino = casaClicada;
+            jogo.moverPeca(casaClicadaOrigem.getPosicaoX(), casaClicadaOrigem.getPosicaoY(), casaClicadaDestino.getPosicaoX(), casaClicadaDestino.getPosicaoY());
+            casaClicadaOrigem.atenuar();
+            primeiroClique = true;
+            atualizar();
+        }
+        
+        if (jogo.getJogadasSemComerPecas() == 20) {
+            JOptionPane.showMessageDialog(this, "FIM DE JOGO! \n" + "20 Jogadas sem comer nenhuma peça!");
+            criarNovoJogo();
+        }
+
+        if (jogo.temGanhador()==1) {
+            JOptionPane.showMessageDialog(this, "FIM DE JOGO! \n" + jogo.getJogadorUm().getNome() + " VENCEU!");
+            criarNovoJogo();
+        }
+        else if (jogo.temGanhador()==2) {
+            JOptionPane.showMessageDialog(this, "FIM DE JOGO! \n" + jogo.getJogadorDois().getNome() + " VENCEU!");
+            criarNovoJogo();
+        }
+    }
 
     /**
      * Cria um novo jogo e atualiza o tabuleiro gráfico.

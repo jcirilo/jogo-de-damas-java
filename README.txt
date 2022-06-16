@@ -1,5 +1,5 @@
-AUTHOR: João Victor da Silva Cirilo <joao.cirilo@academico.ufpb>
-VERSION: 3.6.2022
+@autor: João Victor da Silva Cirilo <joao.cirilo@academico.ufpb>
+@verson: beta-1.15.6.2022
 
 VÍDEO DO PROJETO:
 

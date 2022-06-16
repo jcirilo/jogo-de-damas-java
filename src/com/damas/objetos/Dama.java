@@ -1,8 +1,9 @@
 package com.damas.objetos;
 
-
 /**
- * @author João Victor da S. Cirilo joao.cirilo@academico.ufpb.br
+ * Dama do jogo.
+ * <p>Recebe uma casa e um tipo associado</p>
+ * @author João Victor da S. Cirilo {@link joao.cirilo@academico.ufpb.br}
  */
 public class Dama extends Pedra{
 

@@ -22,5 +22,5 @@ O projeto consiste em desenvolver um jogo simples com interface gráfica utiliza
 
 ### Faltando
 
-- [ ] Implementar regra para remoção sopro em geral
-- [ ] Adicionar alguns elementos no GUI do jogo
+- [ ] Implementar regra para remoção do sopro em geral
+- [ ] Adicionar alguns elementos ao GUI do jogo

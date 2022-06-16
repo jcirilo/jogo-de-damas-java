@@ -12,6 +12,7 @@ import com.damas.objetos.Jogo;
  * Responsável por reagir aos cliques feitos pelo jogador. 
  * @author Alan Moraes &lt;alan@ci.ufpb.br&gt;
  * @author Leonardo Villeth &lt;lvilleth@cc.ci.ufpb.br&gt;
+ * @autor: Arthur Miranda Tavares <arthur.miranda@academico.ufpb.br>
  */
 
 public class JanelaPrincipal extends JFrame {
@@ -34,6 +35,12 @@ public class JanelaPrincipal extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 criarNovoJogo();
             }
+        });
+        
+        // configura action listener para o menu status
+        menuStatus.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {JOptionPane.showMessageDialog(null, jogo.toString());}
         });
 
         // configura action listener para o menu sair
@@ -128,6 +135,8 @@ public class JanelaPrincipal extends JFrame {
         menuArquivo = new javax.swing.JMenu();
         menuNovo = new javax.swing.JMenuItem();
         jSeparator1 = new javax.swing.JPopupMenu.Separator();
+        menuStatus = new javax.swing.JMenuItem();
+        jSeparator2 = new javax.swing.JPopupMenu.Separator();
         menuSair = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -222,6 +231,11 @@ public class JanelaPrincipal extends JFrame {
         menuNovo.setText("Novo");
         menuArquivo.add(menuNovo);
         menuArquivo.add(jSeparator1);
+        
+        menuStatus.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_I, java.awt.event.InputEvent.CTRL_MASK));
+        menuStatus.setText("Status");
+        menuArquivo.add(menuStatus);
+        menuArquivo.add(jSeparator2);
 
         menuSair.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_S, java.awt.event.InputEvent.CTRL_MASK));
         menuSair.setText("Sair");
@@ -269,6 +283,7 @@ public class JanelaPrincipal extends JFrame {
     private javax.swing.JLabel jLabel8;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JPopupMenu.Separator jSeparator1;
+    private javax.swing.JPopupMenu.Separator jSeparator2;
     private javax.swing.JLabel lbl_a;
     private javax.swing.JLabel lbl_b;
     private javax.swing.JLabel lbl_c;
@@ -280,6 +295,7 @@ public class JanelaPrincipal extends JFrame {
     private javax.swing.JMenu menuArquivo;
     private javax.swing.JMenuItem menuNovo;
     private javax.swing.JMenuItem menuSair;
+    private javax.swing.JMenuItem menuStatus;
     private javax.swing.JPanel pnlColunas;
     private javax.swing.JPanel pnlLinhas;
     private TabuleiroGUI tabuleiroGUI;

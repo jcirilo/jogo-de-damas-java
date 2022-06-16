@@ -12,6 +12,11 @@ public class Tabuleiro {
     
     public static final int MAX_LINHAS = 8;
     public static final int MAX_COLUNAS = 8;
+    public static final int X_ESQUERDA = -1;
+    public static final int X_DIREITA = 1;
+    public static final int Y_BAIXO = -1;
+    public static final int Y_CIMA = 1;
+    
  
     private Casa[][] casas;
 

@@ -18,7 +18,8 @@ public class Jogo {
     private int jogadas = 0;
     private int jogadasSemComerPeca = 0;
     private ArrayList<Casa> pecasAComer;
-    private Casa casaBloqueada;
+    private Casa casaBloqueadaOrigem;
+    // private Casa casaBloqueadaDestino;
 
     public Jogo() {
         tabuleiro = new Tabuleiro();
@@ -29,7 +30,7 @@ public class Jogo {
         vezAtual = 1;
         jogadas = 0;
         jogadasSemComerPeca = 0;
-        casaBloqueada = null;
+        casaBloqueadaOrigem = null;
 
         colocarPecas(tabuleiro);
     }
@@ -48,7 +49,7 @@ public class Jogo {
         Casa destino = tabuleiro.getCasa(destinoX, destinoY);
         Pedra peca = origem.getPeca();
 
-        if (casaBloqueada == null) {
+        if (casaBloqueadaOrigem == null) {
             if ((getVez() == 1 && (peca.getTipo() == Pedra.PEDRA_BRANCA || peca.getTipo() == Pedra.DAMA_BRANCA)) ||
                 (getVez() == 2 && (peca.getTipo() == Pedra.PEDRA_VERMELHA || peca.getTipo() == Pedra.DAMA_VERMELHA))) {
 
@@ -62,7 +63,7 @@ public class Jogo {
                             comerPecas();
                             jogadasSemComerPeca = 0;
                             if (deveContinuarJogando(destino)) {
-                                casaBloqueada = destino;
+                                casaBloqueadaOrigem = destino;
                             } else {
                                 trocarDeVez();
                             }
@@ -81,8 +82,8 @@ public class Jogo {
                 }
             }
         } else {
-            if ((origem.equals(casaBloqueada))) {
-                casaBloqueada = null;
+            if ((origem.equals(casaBloqueadaOrigem))) {
+                casaBloqueadaOrigem = null;
                 moverPeca(origemX, origemY, destinoX, destinoY);
             }
         }
@@ -308,19 +309,19 @@ public class Jogo {
      */
     private boolean deveContinuarJogando(Casa origem) {
 
-        if (percorrerEVerificar(origem, -1, 1)) {
+        if (percorrerEVerificar(origem, Tabuleiro.X_ESQUERDA, Tabuleiro.Y_CIMA)) {
             return true;
         } else {
             
-            if (percorrerEVerificar(origem, 1, 1)) {
+            if (percorrerEVerificar(origem, Tabuleiro.X_DIREITA, Tabuleiro.Y_CIMA)) {
                 return true;
             } else {
                         
-                if (percorrerEVerificar(origem, 1, -1)) {
+                if (percorrerEVerificar(origem, Tabuleiro.X_DIREITA, Tabuleiro.Y_BAIXO)) {
                     return true;
                 } else {
 
-                    if (percorrerEVerificar(origem, -1, -1)) {
+                    if (percorrerEVerificar(origem, Tabuleiro.X_ESQUERDA, Tabuleiro.Y_BAIXO)) {
                         return true;
                     }                    
                 }
@@ -471,7 +472,7 @@ public class Jogo {
     }
 
     public Casa getCasaBloqueada() {
-        return casaBloqueada;
+        return casaBloqueadaOrigem;
     }
 
     @Override
@@ -497,9 +498,9 @@ public class Jogo {
         retorno += "Pontos: " + jogadorDois.getPontos() + "\n";
         retorno += "Nº de peças restantes: " + (12 - jogadorUm.getPontos()) + "\n";
 
-        if (casaBloqueada != null) {
+        if (casaBloqueadaOrigem != null) {
             retorno += "\n";
-            retorno += "Mova a peça na casa " + casaBloqueada.getX() + ":" + casaBloqueada.getY() + "!";
+            retorno += "Mova a peça na casa " + casaBloqueadaOrigem.getX() + ":" + casaBloqueadaOrigem.getY() + "!";
         }
 
         return retorno;

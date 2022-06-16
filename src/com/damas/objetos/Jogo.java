@@ -18,52 +18,20 @@ public class Jogo {
     private int jogadas = 0;
     private int jogadasSemComerPeca = 0;
     private ArrayList<Casa> pecasAComer;
+    private Casa casaBloqueada;
 
     public Jogo() {
         tabuleiro = new Tabuleiro();
         pecasAComer = new ArrayList<Casa>();
-        colocarPecas(tabuleiro);
         jogadorUm = new Jogador("player branco");
         jogadorDois = new Jogador("player vermelho");
+        
         vezAtual = 1;
         jogadas = 0;
         jogadasSemComerPeca = 0;
-    }
+        casaBloqueada = null;
 
-    /**
-     * Posiciona peças no tabuleiro.
-     * Utilizado na inicialização do jogo.
-     */
-    public void colocarPecas(Tabuleiro tabuleiro) {
-
-        // CRIA E PÕE AS PEÇAS NA PARTE INFERIOR DO TABULEIRO
-        for (int x = 0; x < 8; x++) {
-            for (int y = 0; y < 3; y++) {
-                if((x % 2 == 0) && (y % 2 == 0)) {
-                    Casa casa = tabuleiro.getCasa(x, y);
-                    new Pedra(casa, Pedra.PEDRA_BRANCA);
-                }
-                
-                else if ((x % 2 != 0) && (y % 2 != 0)){
-                    Casa casa = tabuleiro.getCasa(x, y);
-                    new Pedra(casa, Peca.PEDRA_BRANCA);
-                }
-            }
-
-        }
-        // CRIA E POE AS PEÇAS NA PARTE SUPERIOR DO TABULEIRO
-        for (int x = 0; x < 8; x++) {
-            for (int y = 5; y < 8; y++) {
-                if ((x % 2 != 0) && (y % 2 != 0)) {
-                    Casa casa = tabuleiro.getCasa(x, y);
-                    new Pedra(casa, Peca.PEDRA_VERMELHA);
-                }
-                else if ((x % 2 == 0) && (y % 2 == 0)) {
-                    Casa casa = tabuleiro.getCasa(x, y);
-                    new Pedra(casa, Peca.PEDRA_VERMELHA);
-                }
-            }
-        }
+        colocarPecas(tabuleiro);
     }
     
     /**
@@ -80,31 +48,42 @@ public class Jogo {
         Casa destino = tabuleiro.getCasa(destinoX, destinoY);
         Pedra peca = origem.getPeca();
 
-        if ((getVez() == 1 && (peca.getTipo() == Pedra.PEDRA_BRANCA || peca.getTipo() == Pedra.DAMA_BRANCA)) ||
-            (getVez() == 2 && (peca.getTipo() == Pedra.PEDRA_VERMELHA || peca.getTipo() == Pedra.DAMA_VERMELHA))) {
+        if (casaBloqueada == null) {
+            if ((getVez() == 1 && (peca.getTipo() == Pedra.PEDRA_BRANCA || peca.getTipo() == Pedra.DAMA_BRANCA)) ||
+                (getVez() == 2 && (peca.getTipo() == Pedra.PEDRA_VERMELHA || peca.getTipo() == Pedra.DAMA_VERMELHA))) {
 
-            if (peca.isMovimentoValido(destino)) {
-                if (simularMovimentoEValidar(origem, destino)) {                    
-                    
-                    peca.mover(destino);
-                    if (pecasAComer.size() > 0) {
-                        System.out.println("Peças a comer" + pecasAComer);
-                        comerPecas();
-                        jogadasSemComerPeca = 0;
-                        System.out.println("Peças a comer" + pecasAComer);
-                        if (!podeContinuarJogado(destino)) trocarDeVez();
-                    } else {
-                        jogadasSemComerPeca++;
-                        trocarDeVez();
+                if (peca.isMovimentoValido(destino)) {
+
+                    if (simularMovimentoEValidar(origem, destino)) {                    
+
+                        peca.mover(destino);
+
+                        if (pecasAComer.size() > 0) {
+                            comerPecas();
+                            jogadasSemComerPeca = 0;
+                            if (deveContinuarJogando(destino)) {
+                                casaBloqueada = destino;
+                            } else {
+                                trocarDeVez();
+                            }
+                        } else {
+                            jogadasSemComerPeca++;
+                            trocarDeVez();
+                        }
+
+                        jogadas++;
+                        if (podeTransformarParaDama(destino)) transformarPedraParaDama(destino);
+
+                        System.out.println("\033[H\033[2J");
+                        System.out.println(toString());
+                        System.out.flush();
                     }
-    
-                    jogadas++;
-                    if (podeTransformarParaDama(destino)) transformarPedraParaDama(destino);
-
-                    System.out.println("\033[H\033[2J");
-                    System.out.println(toString());
-                    System.out.flush();
                 }
+            }
+        } else {
+            if ((origem.equals(casaBloqueada))) {
+                casaBloqueada = null;
+                moverPeca(origemX, origemY, destinoX, destinoY);
             }
         }
     }
@@ -152,8 +131,10 @@ public class Jogo {
         sentidoY = sentidoY/distanciaY;
 
         // REGRA DE MOVIMENTO DAS PEDRAS NO TABULEIRO CASO A DISTÂNCIA ATÉ A CASA CLICADA SEJA DE 2 BLOCOS
-        if ((distanciaX == 2 && distanciaY == 2) && (peca.getTipo() == Pedra.PEDRA_BRANCA) || (peca.getTipo() == Pedra.PEDRA_VERMELHA)) {
-            Casa casa = tabuleiro.getCasa((destino.getX() - sentidoX), (destino.getY() -sentidoY));
+        if ((distanciaX == 2 && distanciaY == 2) &&
+            ((peca.getTipo() == Pedra.PEDRA_BRANCA) || (peca.getTipo() == Pedra.PEDRA_VERMELHA))) {
+
+            Casa casa = tabuleiro.getCasa((destino.getX() - sentidoX), (destino.getY() - sentidoY));
             if (casa.getPeca() == null) return false;
         } else {
 
@@ -249,20 +230,27 @@ public class Jogo {
             y += sentidoY;
             
             try {
+
                 Pedra pecaAtual = tabuleiro.getCasa(x, y).getPeca();
                 
                 if (!( pecaAtual == null)) {
 
-                    if ((tabuleiro.getCasa((x + sentidoX), (y + sentidoY)).getPeca() == null) &&
-                        ((peca.getTipo() == Pedra.PEDRA_BRANCA || peca.getTipo() == Pedra.DAMA_BRANCA) || 
-                        (peca.getTipo() == Pedra.PEDRA_VERMELHA || peca.getTipo() == Pedra.DAMA_VERMELHA)) &&
-                        (pecaAtual.getTipo() != peca.getTipo())) {
-
-                        return true;
-
-                    } else {
+                    if (tabuleiro.getCasa((x + sentidoX), (y + sentidoY)).getPeca() != null) {
                         return false;
                     }
+
+                    // VERIFICA SE A PEÇA NO CAMINHO É DA MESMA COR
+                    if ((peca.getTipo() == Peca.PEDRA_BRANCA) && 
+                        ((pecaAtual.getTipo() == Peca.DAMA_BRANCA || pecaAtual.getTipo() == Peca.PEDRA_BRANCA))) {
+                            return false;
+                    } else {
+                        if ((peca.getTipo() == Peca.PEDRA_VERMELHA) && 
+                        ((pecaAtual.getTipo() == Peca.DAMA_VERMELHA || pecaAtual.getTipo() == Peca.PEDRA_VERMELHA))) {
+                            return false;
+                        }
+                    }
+
+                    return true;
                 }
 
             } catch (Exception e) {
@@ -282,14 +270,12 @@ public class Jogo {
                         pecasSeguidasNoCaminho += 1;
         
                         // VERIFICA SE HÁ ALGUMA PEÇA DO MESMO TIPO NO CAMINHO SE SIM, RETORNA FALSE;
-                        if ((peca.getTipo() == Pedra.PEDRA_BRANCA || peca.getTipo() == Pedra.DAMA_BRANCA) && 
-                            (pecaAtual.getTipo() == peca.getTipo()) ) {
-                                
+                        if ((peca.getTipo() == Peca.DAMA_BRANCA) && 
+                            ((pecaAtual.getTipo() == Peca.PEDRA_BRANCA) || (pecaAtual.getTipo() == Peca.DAMA_BRANCA))) {
                                 return false;
                         } else {
-                            if ((peca.getTipo() == Pedra.PEDRA_VERMELHA || peca.getTipo() == Pedra.DAMA_VERMELHA) && 
-                                (pecaAtual.getTipo() == peca.getTipo()) ) {
-                                
+                            if ((peca.getTipo() == Peca.DAMA_VERMELHA) && 
+                            ((pecaAtual.getTipo() == Peca.PEDRA_VERMELHA) || (pecaAtual.getTipo() == Peca.DAMA_VERMELHA))) {
                                     return false;
                             }   
                         }
@@ -320,7 +306,7 @@ public class Jogo {
      * @param origem Casa de onde vai partir a verifição
      * @return {@code true} Se há peça para comer em alguma diagonal
      */
-    private boolean podeContinuarJogado(Casa origem) {
+    private boolean deveContinuarJogando(Casa origem) {
 
         if (percorrerEVerificar(origem, -1, 1)) {
             return true;
@@ -341,8 +327,6 @@ public class Jogo {
             }
 
         }
-
-        System.out.println("trocou de vez");
 
         return false;
     } 
@@ -398,6 +382,42 @@ public class Jogo {
         if (tipoDePedra == Peca.PEDRA_VERMELHA) casa.colocarPeca(new Dama(casa, Peca.DAMA_VERMELHA));
     }
 
+            /**
+     * Posiciona peças no tabuleiro.
+     * Utilizado na inicialização do jogo.
+     */
+    public void colocarPecas(Tabuleiro tabuleiro) {
+
+        // CRIA E PÕE AS PEÇAS NA PARTE INFERIOR DO TABULEIRO
+        for (int x = 0; x < 8; x++) {
+            for (int y = 0; y < 3; y++) {
+                if((x % 2 == 0) && (y % 2 == 0)) {
+                    Casa casa = tabuleiro.getCasa(x, y);
+                    new Pedra(casa, Pedra.PEDRA_BRANCA);
+                }
+                
+                else if ((x % 2 != 0) && (y % 2 != 0)){
+                    Casa casa = tabuleiro.getCasa(x, y);
+                    new Pedra(casa, Peca.PEDRA_BRANCA);
+                }
+            }
+
+        }
+        // CRIA E POE AS PEÇAS NA PARTE SUPERIOR DO TABULEIRO
+        for (int x = 0; x < 8; x++) {
+            for (int y = 5; y < 8; y++) {
+                if ((x % 2 != 0) && (y % 2 != 0)) {
+                    Casa casa = tabuleiro.getCasa(x, y);
+                    new Pedra(casa, Peca.PEDRA_VERMELHA);
+                }
+                else if ((x % 2 == 0) && (y % 2 == 0)) {
+                    Casa casa = tabuleiro.getCasa(x, y);
+                    new Pedra(casa, Peca.PEDRA_VERMELHA);
+                }
+            }
+        }
+    }
+
     public void trocarDeVez() {
         if (vezAtual == 1) {
             vezAtual = 2;
@@ -450,6 +470,10 @@ public class Jogo {
         return jogadas;
     }
 
+    public Casa getCasaBloqueada() {
+        return casaBloqueada;
+    }
+
     @Override
     public String toString() {
 
@@ -462,13 +486,21 @@ public class Jogo {
             retorno += "\n";
         }
 
-        retorno += "Jogada: " + getJogada();
+        retorno += "Nº de jogadas: " + getJogada() + "\n";
+        retorno += "Jogadas sem comer peça: " + getJogadasSemComerPecas() + "\n";
         retorno += "\n";
-        retorno += "Jogadas sem comer peça: " + getJogadasSemComerPecas();
-        retorno += "\n";
-        retorno += "Pontos jogador branco: " + jogadorUm.getPontos();
-        retorno += "\n";
-        retorno += "Pontos jogador vermelho: " + jogadorDois.getPontos();
+        retorno += "Informações do(a) jogador(a) " + jogadorUm.getNome() + "\n";
+        retorno += "Pontos: " + jogadorUm.getPontos() + "\n";
+        retorno += "Nº de peças restantes: " + (12 - jogadorDois.getPontos()) + "\n";
+        retorno += "\n";        
+        retorno += "Informações do(a) jogador(a) " + jogadorDois.getNome() + "\n";
+        retorno += "Pontos: " + jogadorDois.getPontos() + "\n";
+        retorno += "Nº de peças restantes: " + (12 - jogadorUm.getPontos()) + "\n";
+
+        if (casaBloqueada != null) {
+            retorno += "\n";
+            retorno += "Mova a peça na casa " + casaBloqueada.getX() + ":" + casaBloqueada.getY() + "!";
+        }
 
         return retorno;
     }

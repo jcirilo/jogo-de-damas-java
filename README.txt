@@ -1,6 +1,8 @@
 A Classe principal é a "App.java" no diretório "./src/com/damas/App.java"
 
 @autor: João Victor da Silva Cirilo <joao.cirilo@academico.ufpb>
+@autor: José Alisson Rocha da Silva <jose.alisson2@academico.ufpb.br>
+@autor: Arthur Miranda Tavares <arthur.miranda@academico.ufpb.br>
 @verson: beta-1.16.6.2022
 
 VÍDEO DO PROJETO:

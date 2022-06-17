@@ -12,7 +12,7 @@ import com.damas.objetos.Jogo;
  * Responsável por reagir aos cliques feitos pelo jogador. 
  * @author Alan Moraes &lt;alan@ci.ufpb.br&gt;
  * @author Leonardo Villeth &lt;lvilleth@cc.ci.ufpb.br&gt;
- * @autor: Arthur Miranda Tavares <arthur.miranda@academico.ufpb.br>
+ * @author Arthur Miranda Tavares {@link arthur.miranda@academico.ufpb.br}
  */
 
 public class JanelaPrincipal extends JFrame {
@@ -37,6 +37,12 @@ public class JanelaPrincipal extends JFrame {
             }
         });
         
+        // configura action listener para o menu status
+        menuStatus.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {JOptionPane.showMessageDialog(null, jogo.toString());}
+        });
+
         // configura action listener para o menu status
         menuStatus.addActionListener(new ActionListener() {
             @Override
@@ -84,11 +90,11 @@ public class JanelaPrincipal extends JFrame {
             criarNovoJogo();
         }
 
-        if (jogo.temGanhador()==1) {
+        if (jogo.getGanhador()==1) {
             JOptionPane.showMessageDialog(this, "FIM DE JOGO! \n" + jogo.getJogadorUm().getNome() + " VENCEU!");
             criarNovoJogo();
         }
-        else if (jogo.temGanhador()==2) {
+        else if (jogo.getGanhador()==2) {
             JOptionPane.showMessageDialog(this, "FIM DE JOGO! \n" + jogo.getJogadorDois().getNome() + " VENCEU!");
             criarNovoJogo();
         }
@@ -232,6 +238,11 @@ public class JanelaPrincipal extends JFrame {
         menuArquivo.add(menuNovo);
         menuArquivo.add(jSeparator1);
         
+        menuStatus.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_I, java.awt.event.InputEvent.CTRL_MASK));
+        menuStatus.setText("Status");
+        menuArquivo.add(menuStatus);
+        menuArquivo.add(jSeparator2);
+
         menuStatus.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_I, java.awt.event.InputEvent.CTRL_MASK));
         menuStatus.setText("Status");
         menuArquivo.add(menuStatus);

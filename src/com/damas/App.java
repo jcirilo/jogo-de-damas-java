@@ -3,8 +3,8 @@ package com.damas;
 import com.damas.gui.JanelaPrincipal;
 
 /**
- * Classe principal do jogo de damas
- * @author João Victor da S. Cirilo joao.cirilo@academico.ufpb.br
+ * Contém a classe principal do jogo de damas
+ * @author Arthur Miranda Tavares {@link arthur.miranda@academico.ufpb.br}
 */
 public class App {
     public static void main(String args[]) {

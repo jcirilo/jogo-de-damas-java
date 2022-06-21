@@ -36,6 +36,12 @@ public class JanelaPrincipal extends JFrame {
                 criarNovoJogo();
             }
         });
+        
+        // configura action listener para o menu status
+        menuStatus.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {JOptionPane.showMessageDialog(null, jogo.toString());}
+        });
 
         // configura action listener para o menu status
         menuStatus.addActionListener(new ActionListener() {
@@ -231,6 +237,11 @@ public class JanelaPrincipal extends JFrame {
         menuNovo.setText("Novo");
         menuArquivo.add(menuNovo);
         menuArquivo.add(jSeparator1);
+        
+        menuStatus.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_I, java.awt.event.InputEvent.CTRL_MASK));
+        menuStatus.setText("Status");
+        menuArquivo.add(menuStatus);
+        menuArquivo.add(jSeparator2);
 
         menuStatus.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_I, java.awt.event.InputEvent.CTRL_MASK));
         menuStatus.setText("Status");

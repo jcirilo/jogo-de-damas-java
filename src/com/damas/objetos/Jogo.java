@@ -78,8 +78,12 @@ public class Jogo {
             }
         } else {
             if ((origem.equals(casaBloqueadaOrigem))) {
-                casaBloqueadaOrigem = null;
-                moverPeca(origemX, origemY, destinoX, destinoY);
+                if(simularMovimentoEValidar(origem, destino)) {
+                    if (pecasAComer.size() != 0) {
+                        casaBloqueadaOrigem = null;
+                        moverPeca(origemX, origemY, destinoX, destinoY);
+                    }
+                }
             }
         }
     }

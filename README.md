@@ -33,3 +33,11 @@
 
 - [ ] Implementar regra para remoção do sopro em geral
 - [ ] Adicionar alguns elementos ao GUI do jogo
+
+### Contribuidores
+
+- [João Victor](https://github.com/joao-victor-da-silva-cirilo)
+- [Arthur Miranda](https://github.com/ArthurMiranda03)
+- [Alysson Silva](https://github.com/ZeAlysson)
+- Alan Moraes (Professor)
+- Leonardo Villeth (Monitor da disciplina)

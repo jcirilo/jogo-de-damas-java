@@ -17,8 +17,8 @@
 - Pedras não podem voltar uma casa
 - Pedras podem comer voltando
 - O jogo acaba quando algum jogador fizer 12 pontos.
-- O jogo acaba se depois de 20 jogadas ninguém ter comido alguma peça.
-- Se após marcar um ponto, houver outra peça disponível para comer, o jogador é obrigado a comê-la.
+- O jogo acaba se ninguém marcar ponto depois de 20 jogadas.
+- Após marcar um ponto, se houver outra peça disponível para comer, o jogador é obrigado a comê-la.
 - Sopro liberado.
 
 ### Controles e atalhos do jogo
